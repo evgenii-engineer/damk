@@ -46,9 +46,8 @@ footer {
 }
 
 .monkey {
-  width: 80px;
-  max-width: 30vw;
-  opacity: 0.7;
+  width: 180px;
+  max-width: 60vw;
 }
 
 @media (max-width: 480px) {
