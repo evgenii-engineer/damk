@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>index — damk</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <script data-goatcounter="https://damk.goatcounter.com/count"
+          async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
   <header>
@@ -39,14 +41,16 @@
       const tempImg = new Image();
       tempImg.onload = () => {
         monkey.setAttribute('src', 'assets/' + next);
+        if (window.goatcounter) {
+          goatcounter.count({ path: '/monkey-clicked', title: 'Monkey Clicked: ' + next });
+        }
 
         if (next === 'monkey3.png') {
           clickable = false;
 
-          // Применяем inline-анимацию
           monkey.style.transition = 'none';
           monkey.style.transform = 'rotate(0deg) scale(1)';
-          void monkey.offsetWidth; // перезапуск потока
+          void monkey.offsetWidth;
           monkey.style.transition = 'transform 1.8s ease-in-out';
           monkey.style.transform = 'rotate(1440deg) scale(2.5)';
 
