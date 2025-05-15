@@ -57,6 +57,25 @@ footer {
   transform: scale(1.05);
 }
 
+@keyframes spin-grow {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(720deg) scale(2.5);
+    opacity: 0.9;
+  }
+  100% {
+    transform: rotate(1440deg) scale(1);
+    opacity: 1;
+  }
+}
+
+.spin-and-grow {
+  animation: spin-grow 1.8s ease-in-out;
+}
+
 @media (max-width: 480px) {
   body {
     font-size: 15px;
