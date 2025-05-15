@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="265e4c7b-fbcd-4a8c-8239-676fb40b5a2f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/monkey2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/monkey3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/monkey4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/about.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/archive.html" beforeDir="false" afterPath="$PROJECT_DIR$/archive.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/monkey.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/monkey1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/objects.html" beforeDir="false" afterPath="$PROJECT_DIR$/objects.html" afterDir="false" />
     </list>

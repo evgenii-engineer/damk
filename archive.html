@@ -33,6 +33,13 @@
       let others = images.filter(img => img !== current);
       let next = others[Math.floor(Math.random() * others.length)];
       monkey.setAttribute('src', 'assets/' + next);
+
+      if (next === 'monkey3.png') {
+        monkey.classList.add('spin-and-grow');
+        setTimeout(() => {
+          monkey.classList.remove('spin-and-grow');
+        }, 2000);
+      }
     });
   </script>
 </body>
