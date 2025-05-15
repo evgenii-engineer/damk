@@ -1,14 +1,3 @@
-<script>
-  const monkey = document.getElementById('monkey');
-  const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
-
-  monkey.addEventListener('click', () => {
-    let current = monkey.getAttribute('src').split('/').pop();
-    let others = images.filter(img => img !== current);
-    let next = others[Math.floor(Math.random() * others.length)];
-    monkey.setAttribute('src', 'assets/' + next);
-  });
-</script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,5 +45,17 @@
   <footer>
     <img src="assets/monkey1.png" alt="monkey" class="monkey" id="monkey" />
   </footer>
+
+  <script>
+    const monkey = document.getElementById('monkey');
+    const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
+
+    monkey.addEventListener('click', () => {
+      let current = monkey.getAttribute('src').split('/').pop();
+      let others = images.filter(img => img !== current);
+      let next = others[Math.floor(Math.random() * others.length)];
+      monkey.setAttribute('src', 'assets/' + next);
+    });
+  </script>
 </body>
 </html>
