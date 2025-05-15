@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>about — zhenya</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    @keyframes spin-grow {
+      0% {
+        transform: rotate(0deg) scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: rotate(720deg) scale(2.5);
+        opacity: 0.9;
+      }
+      100% {
+        transform: rotate(1440deg) scale(1);
+        opacity: 1;
+      }
+    }
+
+    .spin-and-grow {
+      animation: spin-grow 1.8s ease-in-out;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -27,8 +47,11 @@
   <script>
     const monkey = document.getElementById('monkey');
     const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
+    let clickable = true;
 
     monkey.addEventListener('click', () => {
+      if (!clickable) return;
+
       const current = monkey.getAttribute('src').split('/').pop();
       const others = images.filter(img => img !== current);
       const next = others[Math.floor(Math.random() * others.length)];
@@ -38,9 +61,11 @@
         monkey.setAttribute('src', 'assets/' + next);
 
         if (next === 'monkey3.png') {
+          clickable = false;
           monkey.classList.add('spin-and-grow');
           setTimeout(() => {
             monkey.classList.remove('spin-and-grow');
+            clickable = true;
           }, 2000);
         }
       };
