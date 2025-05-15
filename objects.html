@@ -51,17 +51,22 @@
     const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
 
     monkey.addEventListener('click', () => {
-      let current = monkey.getAttribute('src').split('/').pop();
-      let others = images.filter(img => img !== current);
-      let next = others[Math.floor(Math.random() * others.length)];
-      monkey.setAttribute('src', 'assets/' + next);
+      const current = monkey.getAttribute('src').split('/').pop();
+      const others = images.filter(img => img !== current);
+      const next = others[Math.floor(Math.random() * others.length)];
 
-      if (next === 'monkey3.png') {
-        monkey.classList.add('spin-and-grow');
-        setTimeout(() => {
-          monkey.classList.remove('spin-and-grow');
-        }, 2000);
-      }
+      const tempImg = new Image();
+      tempImg.onload = () => {
+        monkey.setAttribute('src', 'assets/' + next);
+
+        if (next === 'monkey3.png') {
+          monkey.classList.add('spin-and-grow');
+          setTimeout(() => {
+            monkey.classList.remove('spin-and-grow');
+          }, 2000);
+        }
+      };
+      tempImg.src = 'assets/' + next;
     });
   </script>
 </body>
