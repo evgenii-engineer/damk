@@ -36,17 +36,15 @@
         "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"
       ];
 
-      archiveImages.forEach((src) => {
+      archiveImages.forEach((filename) => {
+        const src = "assets/archive/" + filename;
         const img = new Image();
         img.src = src;
-
         img.onload = () => {
-          if (gallery) {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'gallery-item';
-            wrapper.appendChild(img);
-            gallery.appendChild(wrapper);
-          }
+          const wrapper = document.createElement('div');
+          wrapper.className = 'gallery-item';
+          wrapper.appendChild(img);
+          gallery.appendChild(wrapper);
         };
       });
 
@@ -60,15 +58,12 @@
         const current = monkey.getAttribute('src').split('/').pop();
         const others = images.filter(img => img !== current);
         const next = others[Math.floor(Math.random() * others.length)];
-
         const tempImg = new Image();
         tempImg.onload = () => {
           monkey.setAttribute('src', 'assets/' + next);
-
           if (window.goatcounter) {
             goatcounter.count({ path: '/monkey-clicked', title: 'Monkey Clicked: ' + next });
           }
-
           if (next === 'monkey3.png') {
             clickable = false;
             monkey.style.transition = 'none';
