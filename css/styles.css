@@ -70,8 +70,21 @@ footer {
   gap: 16px;
   margin-top: 32px;
 }
-.gallery img {
+
+.gallery-item {
+  position: relative;
   width: 100%;
-  object-fit: cover;
+  aspect-ratio: 1 / 1; /* делает квадрат */
+  overflow: hidden;
   border: 1px solid #000;
+}
+
+.gallery-item img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  width: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
 }

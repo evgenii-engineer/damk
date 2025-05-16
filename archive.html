@@ -41,11 +41,14 @@
       archiveImages.forEach((src) => {
         const img = new Image();
         img.src = src;
+
         img.onload = () => {
-          if (gallery) gallery.appendChild(img);
-        };
-        img.onerror = () => {
-          // ничего не делаем, если файла нет
+          if (gallery) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'gallery-item';
+            wrapper.appendChild(img);
+            gallery.appendChild(wrapper);
+          }
         };
       });
 
