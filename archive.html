@@ -32,11 +32,9 @@
       const gallery = document.getElementById('gallery');
       if (!gallery) return;
 
-      const archiveImages = [];
-      for (let i = 1; i <= 50; i++) {
-        archiveImages.push(`assets/archive/${i}.jpg`);
-        archiveImages.push(`assets/archive/${i}.png`);
-      }
+      const archiveImages = [
+        "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"
+      ];
 
       archiveImages.forEach((src) => {
         const img = new Image();
