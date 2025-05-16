@@ -65,18 +65,19 @@ footer {
 }
 
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 16px;
-  margin-top: 32px;
+  justify-content: center;
 }
 
 .gallery-item {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1; /* делает квадрат */
-  overflow: hidden;
+  width: 200px;
+  aspect-ratio: 1 / 1;
   border: 1px solid #000;
+  position: relative;
+  overflow: hidden;
+  flex: 0 0 auto;
 }
 
 .gallery-item img {
