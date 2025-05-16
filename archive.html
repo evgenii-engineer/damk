@@ -28,49 +28,61 @@
   </footer>
 
   <script>
-    const gallery = document.getElementById('gallery');
-    const archiveImages = [];
+    document.addEventListener('DOMContentLoaded', () => {
+      const gallery = document.getElementById('gallery');
+      if (!gallery) return;
 
-    for (let i = 1; i <= 50; i++) {
-      archiveImages.push(`assets/archive/${i}.jpg`);
-      archiveImages.push(`assets/archive/${i}.png`);
-    }
+      const archiveImages = [];
+      for (let i = 1; i <= 50; i++) {
+        archiveImages.push(`assets/archive/${i}.jpg`);
+        archiveImages.push(`assets/archive/${i}.png`);
+      }
 
-    archiveImages.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => gallery.appendChild(img);
-    });
+      archiveImages.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => {
+          if (gallery) gallery.appendChild(img);
+        };
+        img.onerror = () => {
+          // ничего не делаем, если файла нет
+        };
+      });
 
-    const monkey = document.getElementById('monkey');
-    const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
-    let clickable = true;
+      const monkey = document.getElementById('monkey');
+      const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
+      let clickable = true;
 
-    monkey.addEventListener('click', () => {
-      if (!clickable) return;
-      const current = monkey.getAttribute('src').split('/').pop();
-      const others = images.filter(img => img !== current);
-      const next = others[Math.floor(Math.random() * others.length)];
-      const tempImg = new Image();
-      tempImg.onload = () => {
-        monkey.setAttribute('src', 'assets/' + next);
-        if (window.goatcounter) {
-          goatcounter.count({ path: '/monkey-clicked', title: 'Monkey Clicked: ' + next });
-        }
-        if (next === 'monkey3.png') {
-          clickable = false;
-          monkey.style.transition = 'none';
-          monkey.style.transform = 'rotate(0deg) scale(1)';
-          void monkey.offsetWidth;
-          monkey.style.transition = 'transform 1.8s ease-in-out';
-          monkey.style.transform = 'rotate(1440deg) scale(2.5)';
-          setTimeout(() => {
+      monkey.addEventListener('click', () => {
+        if (!clickable) return;
+
+        const current = monkey.getAttribute('src').split('/').pop();
+        const others = images.filter(img => img !== current);
+        const next = others[Math.floor(Math.random() * others.length)];
+
+        const tempImg = new Image();
+        tempImg.onload = () => {
+          monkey.setAttribute('src', 'assets/' + next);
+
+          if (window.goatcounter) {
+            goatcounter.count({ path: '/monkey-clicked', title: 'Monkey Clicked: ' + next });
+          }
+
+          if (next === 'monkey3.png') {
+            clickable = false;
+            monkey.style.transition = 'none';
             monkey.style.transform = 'rotate(0deg) scale(1)';
-            clickable = true;
-          }, 2000);
-        }
-      };
-      tempImg.src = 'assets/' + next;
+            void monkey.offsetWidth;
+            monkey.style.transition = 'transform 1.8s ease-in-out';
+            monkey.style.transform = 'rotate(1440deg) scale(2.5)';
+            setTimeout(() => {
+              monkey.style.transform = 'rotate(0deg) scale(1)';
+              clickable = true;
+            }, 2000);
+          }
+        };
+        tempImg.src = 'assets/' + next;
+      });
     });
   </script>
 </body>
