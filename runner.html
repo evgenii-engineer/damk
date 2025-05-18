@@ -52,6 +52,7 @@
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    const scale = canvas.height / 600;
     const groundY = canvas.height * 0.75;
     let score = 0;
     let gameOver = false;
@@ -60,19 +61,17 @@
         x: canvas.width * 0.1,
         y: groundY,
         vy: 0,
-        width: 70,
-        height: 100,
+        width: 50 * scale,
+        height: 70 * scale,
         frame: 0,
         jumping: false
     };
 
-    const gravity = 1;
-    const jumpPower = -24;
+    const gravity = 1 * scale;
+    const jumpPower = -24 * scale;
     let frames = 0;
-    const runSprites = [
-        new Image(),
-        new Image()
-    ];
+
+    const runSprites = [new Image(), new Image()];
     runSprites[0].src = "assets/runner/run1.png";
     runSprites[1].src = "assets/runner/run2.png";
 
@@ -85,11 +84,7 @@
     let cloudX = canvas.width;
     let cloudY = groundY * 0.4;
 
-    const obstacleSprites = [
-        "ob1.png",
-        "ob2.png",
-        "ob3.png"
-    ].map(name => {
+    const obstacleSprites = ["ob1.png", "ob2.png", "ob3.png"].map(name => {
         const img = new Image();
         img.src = `assets/runner/${name}`;
         return img;
@@ -115,27 +110,27 @@
             x: canvas.width,
             y: groundY,
             sprite: sprite,
-            width: 30,
-            height: 50,
+            width: 50 * scale,
+            height: 70 * scale,
             counted: false
         });
     }
 
     function drawBackground() {
         const tileWidth = bg.width;
-        bgX -= 2;
+        bgX -= 2 * scale;
         if (bgX <= -tileWidth) bgX = 0;
-        ctx.drawImage(bg, bgX, groundY - bg.height);
-        ctx.drawImage(bg, bgX + tileWidth, groundY - bg.height);
+        ctx.drawImage(bg, bgX, groundY - bg.height * scale, tileWidth * scale, bg.height * scale);
+        ctx.drawImage(bg, bgX + tileWidth * scale, groundY - bg.height * scale, tileWidth * scale, bg.height * scale);
     }
 
     function drawCloud() {
-        cloudX -= 0.5;
+        cloudX -= 0.5 * scale;
         if (cloudX < -100) {
             cloudX = canvas.width + Math.random() * 300;
             cloudY = groundY * 0.4 + Math.random() * 50;
         }
-        ctx.drawImage(cloud, cloudX, cloudY, 100, 60);
+        ctx.drawImage(cloud, cloudX, cloudY, 100 * scale, 60 * scale);
     }
 
     function drawPlayer() {
@@ -149,40 +144,31 @@
     }
 
     function drawScore() {
-        ctx.fillStyle = "white";
-        ctx.font = "20px 'Space Grotesk', sans-serif";
-        ctx.font = "20px 'Space Grotesk', sans-serif";
         ctx.fillStyle = "black";
-        ctx.font = "20px 'Space Grotesk', sans-serif";
-        ctx.fillText(`damks: ${score}`, 20, groundY - 10);
+        ctx.font = `${16 * scale}px 'Space Grotesk', sans-serif`;
+        ctx.fillText(`damks: ${score}`, 20 * scale, groundY - bg.height * scale - 10);
     }
 
     function drawGameOver() {
-        ctx.fillStyle = "#fff";
-        ctx.font = "40px 'Space Grotesk', sans-serif";
+        ctx.fillStyle = "white";
+        ctx.font = `${40 * scale}px 'Space Grotesk', sans-serif`;
         ctx.fillText("DAMK", canvas.width / 2 - 60, canvas.height / 2);
-        ctx.font = "20px sans-serif";
+        ctx.font = `${20 * scale}px 'Space Grotesk', sans-serif`;
         ctx.fillText("click to try again", canvas.width / 2 - 70, canvas.height / 2 + 30);
     }
 
     function update() {
-        if (gameOver) {
-            drawBackground();
-            drawCloud();
-            drawObstacles();
-            drawPlayer();
-            ctx.fillStyle = "white";
-            drawGameOver();
-            ctx.fillStyle = "black";
-            ctx.font = "20px 'Space Grotesk', sans-serif";
-            ctx.fillText(`damks: ${score}`, 20, groundY - 10);
-            return;
-        }
-
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBackground();
         drawCloud();
+        drawObstacles();
+        drawPlayer();
         drawScore();
+
+        if (gameOver) {
+            drawGameOver();
+            return;
+        }
 
         player.vy += gravity;
         player.y += player.vy;
@@ -192,20 +178,18 @@
             player.jumping = false;
         }
 
-        drawPlayer();
         if (frames % 20 === 0) player.frame = (player.frame + 1) % 2;
 
-        for (let ob of obstacles) ob.x -= 4;
-        drawObstacles();
+        for (let ob of obstacles) ob.x -= 4 * scale;
 
         while (obstacles.length && obstacles[0].x + obstacles[0].width < 0) obstacles.shift();
 
         for (let ob of obstacles) {
             const collisionX = player.x + player.width > ob.x && player.x < ob.x + ob.width;
             const collisionY = player.y > ob.y - ob.height;
-            const jumpingOver = player.y + player.height < ob.y - 10;
+            const onTop = player.y + player.height > ob.y && player.vy >= 0;
 
-            if (collisionX && collisionY && player.y + player.height > ob.y && player.vy >= 0) {
+            if (collisionX && collisionY && !onTop) {
                 gameOver = true;
                 drawGameOver();
                 return;
