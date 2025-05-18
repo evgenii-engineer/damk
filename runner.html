@@ -13,6 +13,8 @@
         }
         canvas {
             display: block;
+            width: 100vw;
+            height: 100vh;
         }
     </style>
 </head>
@@ -25,9 +27,6 @@
         <a href="runner.html">game</a>
     </nav>
 </header>
-
-<main>
-    <h1>game</h1>
 <canvas id="game"></canvas>
 <script>
     const canvas = document.getElementById("game");
@@ -38,7 +37,7 @@
     const groundY = canvas.height * 0.8;
 
     const player = {
-        x: 100,
+        x: canvas.width * 0.1,
         y: groundY,
         vy: 0,
         width: 64,
@@ -73,6 +72,18 @@
         return img;
     });
 
+    const assetsToLoad = [bg, cloud, ...runSprites, ...obstacleSprites];
+    let assetsLoaded = 0;
+
+    assetsToLoad.forEach(img => {
+        img.onload = () => {
+            assetsLoaded++;
+            if (assetsLoaded === assetsToLoad.length) {
+                requestAnimationFrame(update);
+            }
+        };
+    });
+
     const obstacles = [];
     let cloudX = canvas.width;
 
@@ -88,17 +99,17 @@
     }
 
     function drawBackground() {
-        ctx.drawImage(bg, 0, groundY - bg.height);
+        ctx.drawImage(bg, 0, groundY - bg.height, canvas.width, bg.height);
     }
 
     function drawCloud() {
-        cloudX -= 1;
+        cloudX -= 0.5;
         if (cloudX < -200) cloudX = canvas.width + Math.random() * 300;
-        ctx.drawImage(cloud, cloudX, 80);
+        ctx.drawImage(cloud, cloudX, 80, 100, 60);
     }
 
     function drawPlayer() {
-        ctx.drawImage(runSprites[player.frame], player.x, player.y - player.height);
+        ctx.drawImage(runSprites[player.frame], player.x, player.y - player.height, player.width, player.height);
     }
 
     function drawObstacles() {
@@ -112,7 +123,6 @@
         drawBackground();
         drawCloud();
 
-        // gravity
         player.vy += gravity;
         player.y += player.vy;
         if (player.y > groundY) {
@@ -122,16 +132,13 @@
         }
 
         drawPlayer();
-        player.frame = Math.floor(frames / 10) % 2;
+        if (frames % 20 === 0) player.frame = (player.frame + 1) % 2;
 
-        // move obstacles
-        for (let ob of obstacles) ob.x -= 6;
+        for (let ob of obstacles) ob.x -= 4;
         drawObstacles();
 
-        // remove offscreen
         while (obstacles.length && obstacles[0].x + obstacles[0].width < 0) obstacles.shift();
 
-        // collision
         for (let ob of obstacles) {
             if (
                 player.x + player.width > ob.x &&
@@ -146,7 +153,7 @@
         }
 
         frames++;
-        if (frames % 90 === 0) spawnObstacle();
+        if (frames % 150 === 0) spawnObstacle();
         requestAnimationFrame(update);
     }
 
@@ -156,8 +163,6 @@
             player.jumping = true;
         }
     });
-
-    update();
 </script>
 </body>
 </html>

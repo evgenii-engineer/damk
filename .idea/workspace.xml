@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="265e4c7b-fbcd-4a8c-8239-676fb40b5a2f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/assets/archive/body1.stl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/archive/face1.stl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/archive/together1.stl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sitemap.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sitemap.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/runner.html" beforeDir="false" afterPath="$PROJECT_DIR$/runner.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
