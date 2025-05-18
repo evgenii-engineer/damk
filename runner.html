@@ -79,18 +79,13 @@
     bg.src = "assets/runner/by.png";
     let bgX = 0;
 
-    const cloud = new Image();
-    cloud.src = "assets/runner/cloud.png";
-    let cloudX = canvas.width;
-    let cloudY = groundY * 0.4;
-
     const obstacleSprites = ["ob1.png", "ob2.png", "ob3.png"].map(name => {
         const img = new Image();
         img.src = `assets/runner/${name}`;
         return img;
     });
 
-    const assetsToLoad = [bg, cloud, ...runSprites, ...obstacleSprites];
+    const assetsToLoad = [bg, ...runSprites, ...obstacleSprites];
     let assetsLoaded = 0;
 
     assetsToLoad.forEach(img => {
@@ -124,15 +119,6 @@
         ctx.drawImage(bg, bgX + tileWidth * scale, groundY - bg.height * scale, tileWidth * scale, bg.height * scale);
     }
 
-    function drawCloud() {
-        cloudX -= 0.5 * scale;
-        if (cloudX < -100) {
-            cloudX = canvas.width + Math.random() * 300;
-            cloudY = groundY * 0.2 + Math.random() * 20;
-        }
-        ctx.drawImage(cloud, cloudX, cloudY, 100 * scale, 60 * scale);
-    }
-
     function drawPlayer() {
         ctx.drawImage(runSprites[player.frame], player.x, player.y - player.height, player.width, player.height);
     }
@@ -160,7 +146,6 @@
     function update() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBackground();
-        drawCloud();
         drawObstacles();
         drawPlayer();
         drawScore();
@@ -215,7 +200,6 @@
             obstacles = [];
             frames = 0;
             bgX = 0;
-            cloudX = canvas.width;
             requestAnimationFrame(update);
             return;
         }
