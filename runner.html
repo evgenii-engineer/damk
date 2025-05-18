@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>damk: runner</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: #fff;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <a href="about.html">about</a>
+        <a href="archive.html">archive</a>
+        <a href="objects.html">objects</a>
+        <a href="runner.html">game</a>
+    </nav>
+</header>
+
+<main>
+    <h1>game</h1>
+<canvas id="game"></canvas>
+<script>
+    const canvas = document.getElementById("game");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const groundY = canvas.height * 0.8;
+
+    const player = {
+        x: 100,
+        y: groundY,
+        vy: 0,
+        width: 64,
+        height: 64,
+        frame: 0,
+        jumping: false
+    };
+
+    const gravity = 1;
+    const jumpPower = -18;
+    let frames = 0;
+    const runSprites = [
+        new Image(),
+        new Image()
+    ];
+    runSprites[0].src = "assets/runner/run1.png";
+    runSprites[1].src = "assets/runner/run2.png";
+
+    const bg = new Image();
+    bg.src = "assets/runner/by.png";
+
+    const cloud = new Image();
+    cloud.src = "assets/runner/cloud.png";
+
+    const obstacleSprites = [
+        "ob1.png",
+        "ob2.png",
+        "ob3.png"
+    ].map(name => {
+        const img = new Image();
+        img.src = `assets/runner/${name}`;
+        return img;
+    });
+
+    const obstacles = [];
+    let cloudX = canvas.width;
+
+    function spawnObstacle() {
+        const sprite = obstacleSprites[Math.floor(Math.random() * obstacleSprites.length)];
+        obstacles.push({
+            x: canvas.width,
+            y: groundY,
+            sprite: sprite,
+            width: 40,
+            height: 60
+        });
+    }
+
+    function drawBackground() {
+        ctx.drawImage(bg, 0, groundY - bg.height);
+    }
+
+    function drawCloud() {
+        cloudX -= 1;
+        if (cloudX < -200) cloudX = canvas.width + Math.random() * 300;
+        ctx.drawImage(cloud, cloudX, 80);
+    }
+
+    function drawPlayer() {
+        ctx.drawImage(runSprites[player.frame], player.x, player.y - player.height);
+    }
+
+    function drawObstacles() {
+        for (let ob of obstacles) {
+            ctx.drawImage(ob.sprite, ob.x, ob.y - ob.height, ob.width, ob.height);
+        }
+    }
+
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBackground();
+        drawCloud();
+
+        // gravity
+        player.vy += gravity;
+        player.y += player.vy;
+        if (player.y > groundY) {
+            player.y = groundY;
+            player.vy = 0;
+            player.jumping = false;
+        }
+
+        drawPlayer();
+        player.frame = Math.floor(frames / 10) % 2;
+
+        // move obstacles
+        for (let ob of obstacles) ob.x -= 6;
+        drawObstacles();
+
+        // remove offscreen
+        while (obstacles.length && obstacles[0].x + obstacles[0].width < 0) obstacles.shift();
+
+        // collision
+        for (let ob of obstacles) {
+            if (
+                player.x + player.width > ob.x &&
+                player.x < ob.x + ob.width &&
+                player.y > ob.y - ob.height
+            ) {
+                ctx.fillStyle = "#000";
+                ctx.font = "32px sans-serif";
+                ctx.fillText("you faded.", canvas.width / 2 - 70, canvas.height / 2);
+                return;
+            }
+        }
+
+        frames++;
+        if (frames % 90 === 0) spawnObstacle();
+        requestAnimationFrame(update);
+    }
+
+    window.addEventListener("click", () => {
+        if (!player.jumping) {
+            player.vy = jumpPower;
+            player.jumping = true;
+        }
+    });
+
+    update();
+</script>
+</body>
+</html>
