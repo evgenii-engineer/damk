@@ -50,6 +50,8 @@
     canvas.height = window.innerHeight;
 
     const groundY = canvas.height * 0.8;
+    let score = 0;
+    let gameOver = false;
 
     const player = {
         x: canvas.width * 0.1,
@@ -100,7 +102,7 @@
         };
     });
 
-    const obstacles = [];
+    let obstacles = [];
     let cloudX = canvas.width;
 
     function spawnObstacle() {
@@ -109,8 +111,9 @@
             x: canvas.width,
             y: groundY,
             sprite: sprite,
-            width: 40,
-            height: 60
+            width: 70,
+            height: 100,
+            counted: false
         });
     }
 
@@ -137,10 +140,30 @@
         }
     }
 
+    function drawScore() {
+        ctx.fillStyle = "#000";
+        ctx.font = "20px sans-serif";
+        ctx.fillText(`objects: ${score}`, 20, 40);
+    }
+
+    function drawGameOver() {
+        ctx.fillStyle = "#000";
+        ctx.font = "40px sans-serif";
+        ctx.fillText("DAMK", canvas.width / 2 - 60, canvas.height / 2);
+        ctx.font = "20px sans-serif";
+        ctx.fillText("click to try again", canvas.width / 2 - 70, canvas.height / 2 + 30);
+    }
+
     function update() {
+        if (gameOver) {
+            drawGameOver();
+            return;
+        }
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBackground();
         drawCloud();
+        drawScore();
 
         player.vy += gravity;
         player.y += player.vy;
@@ -164,10 +187,14 @@
             const jumpingOver = player.y + player.height < ob.y - 10;
 
             if (collisionX && collisionY && !jumpingOver) {
-                ctx.fillStyle = "#000";
-                ctx.font = "32px sans-serif";
-                ctx.fillText("you faded.", canvas.width / 2 - 70, canvas.height / 2);
+                gameOver = true;
+                drawGameOver();
                 return;
+            }
+
+            if (!ob.counted && ob.x + ob.width < player.x) {
+                ob.counted = true;
+                score++;
             }
         }
 
@@ -177,6 +204,19 @@
     }
 
     window.addEventListener("click", () => {
+        if (gameOver) {
+            score = 0;
+            gameOver = false;
+            player.y = groundY;
+            player.vy = 0;
+            obstacles = [];
+            frames = 0;
+            bgX = 0;
+            cloudX = canvas.width;
+            requestAnimationFrame(update);
+            return;
+        }
+
         if (!player.jumping) {
             player.vy = jumpPower;
             player.jumping = true;
