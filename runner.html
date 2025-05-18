@@ -128,7 +128,7 @@
         cloudX -= 0.5 * scale;
         if (cloudX < -100) {
             cloudX = canvas.width + Math.random() * 300;
-            cloudY = groundY * 0.4 + Math.random() * 50;
+            cloudY = groundY * 0.2 + Math.random() * 20;
         }
         ctx.drawImage(cloud, cloudX, cloudY, 100 * scale, 60 * scale);
     }
@@ -187,7 +187,7 @@
         for (let ob of obstacles) {
             const collisionX = player.x + player.width > ob.x && player.x < ob.x + ob.width;
             const collisionY = player.y > ob.y - ob.height;
-            const onTop = player.y + player.height > ob.y && player.vy >= 0;
+            const onTop = player.vy > 0 && player.y + player.height - ob.height < ob.y;
 
             if (collisionX && collisionY && !onTop) {
                 gameOver = true;
