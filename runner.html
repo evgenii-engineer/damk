@@ -115,8 +115,8 @@
             x: canvas.width,
             y: groundY,
             sprite: sprite,
-            width: 70,
-            height: 100,
+            width: 30,
+            height: 50,
             counted: false
         });
     }
@@ -149,10 +149,12 @@
     }
 
     function drawScore() {
-        ctx.fillStyle = "#fff";
+        ctx.fillStyle = "white";
         ctx.font = "20px 'Space Grotesk', sans-serif";
         ctx.font = "20px 'Space Grotesk', sans-serif";
-        ctx.fillText(`damks: ${score}`, 20, 60);
+        ctx.fillStyle = "black";
+        ctx.font = "20px 'Space Grotesk', sans-serif";
+        ctx.fillText(`damks: ${score}`, 20, groundY - 10);
     }
 
     function drawGameOver() {
@@ -165,7 +167,15 @@
 
     function update() {
         if (gameOver) {
+            drawBackground();
+            drawCloud();
+            drawObstacles();
+            drawPlayer();
+            ctx.fillStyle = "white";
             drawGameOver();
+            ctx.fillStyle = "black";
+            ctx.font = "20px 'Space Grotesk', sans-serif";
+            ctx.fillText(`damks: ${score}`, 20, groundY - 10);
             return;
         }
 
@@ -195,7 +205,7 @@
             const collisionY = player.y > ob.y - ob.height;
             const jumpingOver = player.y + player.height < ob.y - 10;
 
-            if (collisionX && collisionY && !(player.vy < 0 && player.y < ob.y)) {
+            if (collisionX && collisionY && player.y + player.height > ob.y && player.vy >= 0) {
                 gameOver = true;
                 drawGameOver();
                 return;
