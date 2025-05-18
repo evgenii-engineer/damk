@@ -10,23 +10,38 @@
             padding: 0;
             background: #fff;
             overflow: hidden;
+            font-family: 'Space Grotesk', sans-serif;
         }
         canvas {
             display: block;
             width: 100vw;
             height: 100vh;
         }
+        nav {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+        }
+        nav a {
+            text-decoration: none;
+            color: black;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-<header>
-    <nav>
-        <a href="about.html">about</a>
-        <a href="archive.html">archive</a>
-        <a href="objects.html">objects</a>
-        <a href="runner.html">game</a>
-    </nav>
-</header>
+<nav>
+    <a href="index.html">about</a>
+    <a href="archive.html">archive</a>
+    <a href="objects.html">objects</a>
+    <a href="runner.html">game</a>
+</nav>
+
 <canvas id="game"></canvas>
 <script>
     const canvas = document.getElementById("game");
@@ -58,6 +73,7 @@
 
     const bg = new Image();
     bg.src = "assets/runner/by.png";
+    let bgX = 0;
 
     const cloud = new Image();
     cloud.src = "assets/runner/cloud.png";
@@ -99,7 +115,10 @@
     }
 
     function drawBackground() {
-        ctx.drawImage(bg, 0, groundY - bg.height, canvas.width, bg.height);
+        bgX -= 2;
+        if (bgX <= -canvas.width) bgX = 0;
+        ctx.drawImage(bg, bgX, groundY - bg.height, canvas.width, bg.height);
+        ctx.drawImage(bg, bgX + canvas.width, groundY - bg.height, canvas.width, bg.height);
     }
 
     function drawCloud() {
@@ -140,11 +159,11 @@
         while (obstacles.length && obstacles[0].x + obstacles[0].width < 0) obstacles.shift();
 
         for (let ob of obstacles) {
-            if (
-                player.x + player.width > ob.x &&
-                player.x < ob.x + ob.width &&
-                player.y > ob.y - ob.height
-            ) {
+            const collisionX = player.x + player.width > ob.x && player.x < ob.x + ob.width;
+            const collisionY = player.y > ob.y - ob.height;
+            const jumpingOver = player.y + player.height < ob.y - 10;
+
+            if (collisionX && collisionY && !jumpingOver) {
                 ctx.fillStyle = "#000";
                 ctx.font = "32px sans-serif";
                 ctx.fillText("you faded.", canvas.width / 2 - 70, canvas.height / 2);
