@@ -148,7 +148,7 @@
     function drawScore() {
         ctx.fillStyle = "#000";
         ctx.font = "20px sans-serif";
-        ctx.fillText(`objects: ${score}`, 20, 40);
+        ctx.fillText(`damks: ${score}`, 20, groundY - 20);
     }
 
     function drawGameOver() {
@@ -191,7 +191,7 @@
             const collisionY = player.y > ob.y - ob.height;
             const jumpingOver = player.y + player.height < ob.y - 10;
 
-            if (collisionX && collisionY && !jumpingOver) {
+            if (collisionX && collisionY && player.vy >= 0) {
                 gameOver = true;
                 drawGameOver();
                 return;
