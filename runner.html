@@ -192,6 +192,16 @@
     }
 
     window.addEventListener("click", () => {
+        handleJump();
+    });
+
+    window.addEventListener("keydown", (e) => {
+        if (e.code === "Space") {
+            handleJump();
+        }
+    });
+
+    function handleJump() {
         if (gameOver) {
             score = 0;
             gameOver = false;
@@ -208,7 +218,7 @@
             player.vy = jumpPower;
             player.jumping = true;
         }
-    });
+    };
 </script>
 </body>
 </html>
