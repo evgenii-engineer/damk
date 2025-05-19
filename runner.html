@@ -1,55 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>damk: game</title>
-    <link rel="stylesheet" href="css/styles.css" />
-    <script data-goatcounter="https://damk.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js"></script>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            background: #fff;
-            overflow: hidden;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        canvas {
-            display: block;
-            width: 100vw;
-            height: 100vh;
-        }
-        nav {
-            position: absolute;
-            top: 10px;
-            left: 0;
-            width: 100%;
-            text-align: center;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        nav a {
-            text-decoration: none;
-            color: black;
-            margin: 0 8px;
-            font-size: 16px;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>damk: runner</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      overflow: hidden;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      touch-action: manipulation;
+    }
+    nav {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    nav a {
+      text-decoration: none;
+      color: black;
+      margin: 0 8px;
+      font-size: 16px;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-<nav>
+  <nav>
     <a href="index.html">about</a>
     <a href="archive.html">archive</a>
     <a href="objects.html">objects</a>
     <a href="runner.html">game</a>
-</nav>
+  </nav>
 
-<canvas id="game"></canvas>
-<script>
+  <canvas id="game"></canvas>
+  <script>
     const canvas = document.getElementById("game");
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
@@ -61,13 +59,13 @@
     let gameOver = false;
 
     const player = {
-        x: canvas.width * 0.1,
-        y: groundY,
-        vy: 0,
-        width: 50 * scale,
-        height: 70 * scale,
-        frame: 0,
-        jumping: false
+      x: canvas.width * 0.1,
+      y: groundY,
+      vy: 0,
+      width: 50 * scale,
+      height: 70 * scale,
+      frame: 0,
+      jumping: false
     };
 
     const gravity = 1 * scale;
@@ -82,146 +80,144 @@
     bg.src = "assets/runner/by.png";
     let bgX = 0;
 
-    const obstacleSprites = ["ob1.png", "ob2.png", "ob3.png", "ob4.png"].map(name => {
-        const img = new Image();
-        img.src = `assets/runner/${name}`;
-        return img;
+    const obstacleSprites = ["ob1.png", "ob2.png", "ob3.png"].map(name => {
+      const img = new Image();
+      img.src = `assets/runner/${name}`;
+      return img;
     });
 
     const assetsToLoad = [bg, ...runSprites, ...obstacleSprites];
     let assetsLoaded = 0;
 
     assetsToLoad.forEach(img => {
-        img.onload = () => {
-            assetsLoaded++;
-            if (assetsLoaded === assetsToLoad.length) {
-                requestAnimationFrame(update);
-            }
-        };
+      img.onload = () => {
+        assetsLoaded++;
+        if (assetsLoaded === assetsToLoad.length) {
+          requestAnimationFrame(update);
+        }
+      };
     });
 
     let obstacles = [];
 
     function spawnObstacle() {
-        const sprite = obstacleSprites[Math.floor(Math.random() * obstacleSprites.length)];
-        obstacles.push({
-            x: canvas.width,
-            y: groundY,
-            sprite: sprite,
-            width: 50 * scale,
-            height: 70 * scale,
-            counted: false
-        });
+      const sprite = obstacleSprites[Math.floor(Math.random() * obstacleSprites.length)];
+      obstacles.push({
+        x: canvas.width,
+        y: groundY,
+        sprite: sprite,
+        width: 50 * scale,
+        height: 70 * scale,
+        counted: false
+      });
     }
 
     function drawBackground() {
-        const tileWidth = bg.width;
-        bgX -= 2 * scale;
-        if (bgX <= -tileWidth) bgX = 0;
-        ctx.drawImage(bg, bgX, groundY - bg.height * scale, tileWidth * scale, bg.height * scale);
-        ctx.drawImage(bg, bgX + tileWidth * scale, groundY - bg.height * scale, tileWidth * scale, bg.height * scale);
+      const tileWidth = bg.width;
+      bgX -= 2 * scale;
+      if (bgX <= -tileWidth) bgX = 0;
+      ctx.drawImage(bg, bgX, groundY - bg.height * scale, tileWidth * scale, bg.height * scale);
+      ctx.drawImage(bg, bgX + tileWidth * scale, groundY - bg.height * scale, tileWidth * scale, bg.height * scale);
     }
 
     function drawPlayer() {
-        ctx.drawImage(runSprites[player.frame], player.x, player.y - player.height, player.width, player.height);
+      ctx.drawImage(runSprites[player.frame], player.x, player.y - player.height, player.width, player.height);
     }
 
     function drawObstacles() {
-        for (let ob of obstacles) {
-            ctx.drawImage(ob.sprite, ob.x, ob.y - ob.height, ob.width, ob.height);
-        }
+      for (let ob of obstacles) {
+        ctx.drawImage(ob.sprite, ob.x, ob.y - ob.height, ob.width, ob.height);
+      }
     }
 
     function drawScore() {
-        ctx.fillStyle = "black";
-        ctx.font = `${16 * scale}px 'Space Grotesk', sans-serif`;
-        ctx.fillText(`damks: ${score}`, 20 * scale, groundY - bg.height * scale - 10);
+      ctx.fillStyle = "black";
+      ctx.font = `${16 * scale}px 'Space Grotesk', sans-serif`;
+      ctx.fillText(`damks: ${score}`, 20 * scale, groundY - bg.height * scale - 10);
     }
 
     function drawGameOver() {
-        ctx.fillStyle = "white";
-        ctx.font = `${40 * scale}px 'Space Grotesk', sans-serif`;
-        ctx.fillText("DAMK", canvas.width / 2 - 60, canvas.height / 2);
-        ctx.font = `${20 * scale}px 'Space Grotesk', sans-serif`;
-        ctx.fillText("click to try again", canvas.width / 2 - 70, canvas.height / 2 + 30);
+      ctx.fillStyle = "white";
+      ctx.font = `${40 * scale}px 'Space Grotesk', sans-serif`;
+      ctx.fillText("DAMK", canvas.width / 2 - 60, canvas.height / 2);
+      ctx.font = `${20 * scale}px 'Space Grotesk', sans-serif`;
+      ctx.fillText("click to try again", canvas.width / 2 - 70, canvas.height / 2 + 30);
     }
 
     function update() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawBackground();
-        drawObstacles();
-        drawPlayer();
-        drawScore();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawBackground();
+      drawObstacles();
+      drawPlayer();
+      drawScore();
 
-        if (gameOver) {
-            drawGameOver();
-            return;
+      if (gameOver) {
+        drawGameOver();
+        return;
+      }
+
+      player.vy += gravity;
+      player.y += player.vy;
+      if (player.y > groundY) {
+        player.y = groundY;
+        player.vy = 0;
+        player.jumping = false;
+      }
+
+      if (frames % 20 === 0) player.frame = (player.frame + 1) % 2;
+
+      for (let ob of obstacles) ob.x -= 4 * scale;
+
+      while (obstacles.length && obstacles[0].x + obstacles[0].width < 0) obstacles.shift();
+
+      for (let ob of obstacles) {
+        const collisionX = player.x + player.width > ob.x && player.x < ob.x + ob.width;
+        const collisionY = player.y > ob.y - ob.height;
+        const onTop = player.vy > 0 && player.y + player.height - ob.height < ob.y;
+
+        if (collisionX && collisionY && !onTop) {
+          gameOver = true;
+          drawGameOver();
+          return;
         }
 
-        player.vy += gravity;
-        player.y += player.vy;
-        if (player.y > groundY) {
-            player.y = groundY;
-            player.vy = 0;
-            player.jumping = false;
+        if (!ob.counted && ob.x + ob.width < player.x) {
+          ob.counted = true;
+          score++;
         }
+      }
 
-        if (frames % 20 === 0) player.frame = (player.frame + 1) % 2;
-
-        for (let ob of obstacles) ob.x -= 4 * scale;
-
-        while (obstacles.length && obstacles[0].x + obstacles[0].width < 0) obstacles.shift();
-
-        for (let ob of obstacles) {
-            const collisionX = player.x + player.width > ob.x && player.x < ob.x + ob.width;
-            const collisionY = player.y > ob.y - ob.height;
-            const onTop = player.vy > 0 && player.y + player.height - ob.height < ob.y;
-
-            if (collisionX && collisionY && !onTop) {
-                gameOver = true;
-                drawGameOver();
-                return;
-            }
-
-            if (!ob.counted && ob.x + ob.width < player.x) {
-                ob.counted = true;
-                score++;
-            }
-        }
-
-        frames++;
-        if (frames % 150 === 0) spawnObstacle();
-        requestAnimationFrame(update);
+      frames++;
+      if (frames % 150 === 0) spawnObstacle();
+      requestAnimationFrame(update);
     }
 
-    window.addEventListener("click", () => {
-        handleJump();
-    });
-
-    window.addEventListener("keydown", (e) => {
-        if (e.code === "Space") {
-            handleJump();
-        }
-    });
-
     function handleJump() {
-        if (gameOver) {
-            score = 0;
-            gameOver = false;
-            player.y = groundY;
-            player.vy = 0;
-            obstacles = [];
-            frames = 0;
-            bgX = 0;
-            requestAnimationFrame(update);
-            return;
-        }
+      if (gameOver) {
+        score = 0;
+        gameOver = false;
+        player.y = groundY;
+        player.vy = 0;
+        obstacles = [];
+        frames = 0;
+        bgX = 0;
+        requestAnimationFrame(update);
+        return;
+      }
 
-        if (!player.jumping) {
-            player.vy = jumpPower;
-            player.jumping = true;
-        }
-    };
-</script>
+      if (!player.jumping) {
+        player.vy = jumpPower;
+        player.jumping = true;
+      }
+    }
+
+    window.addEventListener("click", handleJump);
+    window.addEventListener("touchstart", handleJump);
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "Space") {
+        handleJump();
+      }
+    });
+  </script>
 </body>
 </html>
