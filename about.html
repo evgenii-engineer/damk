@@ -43,9 +43,6 @@
       const tempImg = new Image();
       tempImg.onload = () => {
         monkey.setAttribute('src', 'assets/' + next);
-        if (window.goatcounter) {
-          goatcounter.count({ path: '/monkey-clicked', title: 'Monkey Clicked: ' + next });
-        }
 
         if (next === 'monkey3.png') {
           clickable = false;

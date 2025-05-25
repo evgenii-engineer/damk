@@ -43,7 +43,7 @@
   </p>
 </section>
 
-<p>to order — <a href="https://instagram.com/evg.damk"  onclick="if(window.goatcounter){goatcounter.count({path: '/instagram-click'});}" target="_blank">DM me on Instagram</a></p></p>
+<p>to order — <a href="https://instagram.com/evg.damk">DM me on Instagram</a></p></p>
   </main>
 
   <footer>
@@ -65,9 +65,6 @@
       const tempImg = new Image();
       tempImg.onload = () => {
         monkey.setAttribute('src', 'assets/' + next);
-        if (window.goatcounter) {
-          goatcounter.count({ path: '/monkey-clicked', title: 'Monkey Clicked: ' + next });
-        }
 
         if (next === 'monkey3.png') {
           clickable = false;
