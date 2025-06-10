@@ -73,32 +73,13 @@
                 '2024_other4.jpg']
         };
 
-        for (const [category, files] of Object.entries(data)) {
-            const section = document.querySelector(`.gallery-section[data-tab="${category}"]`);
-            if (!section) continue;
-
-            const grid = document.createElement('div');
-            grid.className = 'gallery';
-
-            files.forEach((filename) => {
-                const [year] = filename.split('_');
-                const img = new Image();
-                img.src = `assets/archive/${category}/${filename}`;
-
-                const wrapper = document.createElement('div');
-                wrapper.className = 'gallery-item';
-
-                const caption = document.createElement('div');
-                caption.className = 'caption';
-                caption.textContent = year;
-
-                wrapper.appendChild(img);
-                wrapper.appendChild(caption);
-                grid.appendChild(wrapper);
+        Object.keys(data).forEach(category => {
+            data[category].sort((a, b) => {
+                const yearA = parseInt(a.split('_')[0]);
+                const yearB = parseInt(b.split('_')[0]);
+                return yearA - yearB;
             });
-
-            section.appendChild(grid);
-        }
+        });
 
         const buttons = document.querySelectorAll('.tab-button');
         const sections = document.querySelectorAll('.gallery-section');
