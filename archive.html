@@ -131,17 +131,22 @@
             if (!clickable) return;
 
             const current = monkey.getAttribute('src').split('/').pop();
-            const next = monkeyImgs.find(m => m !== current) || 'monkey1.png';
+            const others = images.filter(img => img !== current);
+            const next = others[Math.floor(Math.random() * others.length)];
+
             const tempImg = new Image();
             tempImg.onload = () => {
-                monkey.src = 'assets/' + next;
+                monkey.setAttribute('src', 'assets/' + next);
+
                 if (next === 'monkey3.png') {
                     clickable = false;
+
                     monkey.style.transition = 'none';
                     monkey.style.transform = 'rotate(0deg) scale(1)';
                     void monkey.offsetWidth;
                     monkey.style.transition = 'transform 1.8s ease-in-out';
                     monkey.style.transform = 'rotate(1440deg) scale(2.5)';
+
                     setTimeout(() => {
                         monkey.style.transform = 'rotate(0deg) scale(1)';
                         clickable = true;
