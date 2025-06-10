@@ -38,11 +38,15 @@
     </div>
 </main>
 
+<div id="image-overlay" class="hidden">
+    <img id="overlay-img" src="" alt="expanded" />
+</div>
+
 <footer>
     <img src="assets/monkey1.png" alt="monkey" class="monkey" id="monkey" />
     <div style="margin-top: 1em;">
         <script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js"
-                data-name="bmc-button" data-slug="evgdamk" data-color="#FFDD00" data-emoji="" data-font="Comic"
+                data-name="bmc-button" data-slug="evgdamk" data-color="#FFDD00" data-emoji=""
                 data-text="Buy me a coffee" data-outline-color="#000000" data-font-color="#000000"
                 data-coffee-color="#ffffff"></script>
     </div>
@@ -113,10 +117,8 @@
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
                 const tab = btn.dataset.tab;
-
                 buttons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-
                 sections.forEach(s => {
                     s.classList.toggle('active', s.dataset.tab === tab);
                 });
@@ -129,24 +131,19 @@
 
         monkey.addEventListener('click', () => {
             if (!clickable) return;
-
             const current = monkey.getAttribute('src').split('/').pop();
             const others = images.filter(img => img !== current);
             const next = others[Math.floor(Math.random() * others.length)];
-
             const tempImg = new Image();
             tempImg.onload = () => {
                 monkey.setAttribute('src', 'assets/' + next);
-
                 if (next === 'monkey3.png') {
                     clickable = false;
-
                     monkey.style.transition = 'none';
                     monkey.style.transform = 'rotate(0deg) scale(1)';
                     void monkey.offsetWidth;
                     monkey.style.transition = 'transform 1.8s ease-in-out';
                     monkey.style.transform = 'rotate(1440deg) scale(2.5)';
-
                     setTimeout(() => {
                         monkey.style.transform = 'rotate(0deg) scale(1)';
                         clickable = true;
@@ -154,6 +151,23 @@
                 }
             };
             tempImg.src = 'assets/' + next;
+        });
+
+        const overlay = document.getElementById('image-overlay');
+        const overlayImg = document.getElementById('overlay-img');
+
+        document.querySelectorAll('.gallery-section').forEach(section => {
+            section.addEventListener('click', e => {
+                if (e.target.tagName === 'IMG') {
+                    overlayImg.src = e.target.src;
+                    overlay.classList.remove('hidden');
+                }
+            });
+        });
+
+        overlay.addEventListener('click', () => {
+            overlay.classList.add('hidden');
+            overlayImg.src = '';
         });
     });
 </script>

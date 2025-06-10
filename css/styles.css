@@ -123,3 +123,28 @@ footer {
   color: gray;
   margin-top: 0.3rem;
 }
+
+#image-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  cursor: zoom-out;
+}
+
+#image-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  box-shadow: 0 0 30px rgba(255,255,255,0.1);
+}
+
+#image-overlay.hidden {
+  display: none;
+}
