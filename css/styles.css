@@ -97,3 +97,27 @@ footer {
   color: gray;
   margin-top: 0.3rem;
 }
+
+.gallery-section.active {
+  display: block;
+}
+
+tabs {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0 1rem;
+}
+
+.tab-button {
+  border: none;
+  background: none;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-button.active {
+  border-color: black;
+}
