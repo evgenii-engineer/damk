@@ -89,26 +89,57 @@
 
             const grid = document.createElement('div');
             grid.className = 'gallery';
+            section.appendChild(grid);
 
-            data[tab].forEach((filename) => {
-                const [year] = filename.split('_');
-                const img = new Image();
-                img.src = `assets/archive/${tab}/${filename}`;
-                img.loading = "lazy";
+            const files = data[tab];
+            const pageSize = 6;
+            let currentPage = 0;
 
-                const wrapper = document.createElement('div');
-                wrapper.className = 'gallery-item';
+            // элемент-наблюдатель для IntersectionObserver
+            const sentinel = document.createElement('div');
+            sentinel.className = 'scroll-sentinel';
+            section.appendChild(sentinel);
 
-                const caption = document.createElement('div');
-                caption.className = 'caption';
-                caption.textContent = year;
+            function loadNextPage() {
+                const start = currentPage * pageSize;
+                const end = start + pageSize;
+                const chunk = files.slice(start, end);
 
-                wrapper.appendChild(img);
-                wrapper.appendChild(caption);
-                grid.appendChild(wrapper);
+                chunk.forEach((filename) => {
+                    const [year] = filename.split('_');
+                    const img = new Image();
+                    img.src = `assets/archive/${tab}/${filename.replace('.jpg', '.webp')}`;
+                    img.loading = "lazy";
+
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'gallery-item';
+
+                    const caption = document.createElement('div');
+                    caption.className = 'caption';
+                    caption.textContent = year;
+
+                    wrapper.appendChild(img);
+                    wrapper.appendChild(caption);
+                    grid.appendChild(wrapper);
+                });
+
+                currentPage++;
+                if (currentPage * pageSize >= files.length) {
+                    observer.disconnect(); // всё загружено — отключаем наблюдение
+                    sentinel.remove();
+                }
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    loadNextPage();
+                }
+            }, {
+                rootMargin: '200px',
             });
 
-            section.appendChild(grid);
+            loadNextPage();
+            observer.observe(sentinel);
         }
 
         loadImagesFor('canvases');

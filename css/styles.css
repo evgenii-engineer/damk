@@ -148,3 +148,7 @@ footer {
 #image-overlay.hidden {
   display: none;
 }
+
+.scroll-sentinel {
+  height: 1px;
+}
