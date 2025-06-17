@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>archive — damk</title>
-    <meta name="description" content="damk is personal space — drawings, soft memories, small objects." />
-    <link rel="stylesheet" href="css/styles.css" />
+    <meta name="description" content="damk is personal space — drawings, soft memories, small objects."/>
+    <link rel="stylesheet" href="css/styles.css"/>
     <script data-goatcounter="https://damk.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon"/>
 </head>
 <body>
 <header>
@@ -39,11 +39,11 @@
 </main>
 
 <div id="image-overlay" class="hidden">
-    <img id="overlay-img" src="" alt="expanded" />
+    <img id="overlay-img" src="" alt="expanded"/>
 </div>
 
 <footer>
-    <img src="assets/monkey1.png" alt="monkey" class="monkey" id="monkey" />
+    <img src="assets/monkey1.png" alt="monkey" class="monkey" id="monkey"/>
 </footer>
 
 <script>
@@ -78,17 +78,23 @@
                 '2024_other4.jpg']
         };
 
-        for (const [category, files] of Object.entries(data)) {
-            const section = document.querySelector(`.gallery-section[data-tab="${category}"]`);
-            if (!section) continue;
+        const loadedTabs = new Set();
+
+        function loadImagesFor(tab) {
+            if (loadedTabs.has(tab)) return;
+            loadedTabs.add(tab);
+
+            const section = document.querySelector(`.gallery-section[data-tab="${tab}"]`);
+            if (!section) return;
 
             const grid = document.createElement('div');
             grid.className = 'gallery';
 
-            files.forEach((filename) => {
+            data[tab].forEach((filename) => {
                 const [year] = filename.split('_');
                 const img = new Image();
-                img.src = `assets/archive/${category}/${filename}`;
+                img.src = `assets/archive/${tab}/${filename}`;
+                img.loading = "lazy";
 
                 const wrapper = document.createElement('div');
                 wrapper.className = 'gallery-item';
@@ -105,6 +111,8 @@
             section.appendChild(grid);
         }
 
+        loadImagesFor('canvases');
+
         const buttons = document.querySelectorAll('.tab-button');
         const sections = document.querySelectorAll('.gallery-section');
 
@@ -116,6 +124,7 @@
                 sections.forEach(s => {
                     s.classList.toggle('active', s.dataset.tab === tab);
                 });
+                loadImagesFor(tab);
             });
         });
 
