@@ -95,7 +95,6 @@
             const pageSize = 6;
             let currentPage = 0;
 
-            // элемент-наблюдатель для IntersectionObserver
             const sentinel = document.createElement('div');
             sentinel.className = 'scroll-sentinel';
             section.appendChild(sentinel);
@@ -108,7 +107,7 @@
                 chunk.forEach((filename) => {
                     const [year] = filename.split('_');
                     const img = new Image();
-                    img.src = `assets/archive/${tab}/${filename.replace('.jpg', '.webp')}`;
+                    img.src = `assets/archive/${tab}/${filename}`;
                     img.loading = "lazy";
 
                     const wrapper = document.createElement('div');
@@ -125,7 +124,7 @@
 
                 currentPage++;
                 if (currentPage * pageSize >= files.length) {
-                    observer.disconnect(); // всё загружено — отключаем наблюдение
+                    observer.disconnect();
                     sentinel.remove();
                 }
             }
@@ -142,6 +141,7 @@
             observer.observe(sentinel);
         }
 
+        // начальная вкладка
         loadImagesFor('canvases');
 
         const buttons = document.querySelectorAll('.tab-button');
@@ -159,6 +159,7 @@
             });
         });
 
+        // обезьянка
         const monkey = document.getElementById('monkey');
         const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
         let clickable = true;
@@ -187,16 +188,15 @@
             tempImg.src = 'assets/' + next;
         });
 
+        // overlay при клике на картинку
         const overlay = document.getElementById('image-overlay');
         const overlayImg = document.getElementById('overlay-img');
 
-        document.querySelectorAll('.gallery-section').forEach(section => {
-            section.addEventListener('click', e => {
-                if (e.target.tagName === 'IMG') {
-                    overlayImg.src = e.target.src;
-                    overlay.classList.remove('hidden');
-                }
-            });
+        document.getElementById('archive-sections').addEventListener('click', e => {
+            if (e.target.tagName === 'IMG') {
+                overlayImg.src = e.target.src;
+                overlay.classList.remove('hidden');
+            }
         });
 
         overlay.addEventListener('click', () => {
