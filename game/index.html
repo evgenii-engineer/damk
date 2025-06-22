@@ -40,7 +40,7 @@
 
   <script data-goatcounter="https://damk.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="../assets/favicon.ico" type="image/x-icon" />
 </head>
 <body>
   <nav>
@@ -78,16 +78,16 @@
     let frames = 0;
 
     const runSprites = [new Image(), new Image()];
-    runSprites[0].src = "assets/runner/run1.png";
-    runSprites[1].src = "assets/runner/run2.png";
+    runSprites[0].src = "../assets/runner/run1.png";
+    runSprites[1].src = "../assets/runner/run2.png";
 
     const bg = new Image();
-    bg.src = "assets/runner/by.png";
+    bg.src = "../assets/runner/by.png";
     let bgX = 0;
 
     const obstacleSprites = ["ob1.png", "ob2.png", "ob3.png"].map(name => {
       const img = new Image();
-      img.src = `assets/runner/${name}`;
+      img.src = `../assets/runner/${name}`;
       return img;
     });
 
