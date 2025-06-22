@@ -168,12 +168,51 @@ footer {
   margin: 0 auto;
 }
 
-.figure-img {
+.shop {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.shop-note {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+.product-img {
   max-width: 220px;
   width: 100%;
   height: auto;
-  display: block;
-  margin: 0 auto 12px auto;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 12px;
+}
+
+.product-info h3 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.product-info p {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.cta-link {
+  color: #8a3ab9;
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.cta-link:hover {
+  opacity: 0.6;
 }
