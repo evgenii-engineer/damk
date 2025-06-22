@@ -187,12 +187,13 @@ footer {
 }
 
 .product-img {
-  max-width: 220px;
   width: 100%;
+  max-width: 220px;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   margin-bottom: 12px;
+  display: block;
 }
 
 .product-info h3 {
