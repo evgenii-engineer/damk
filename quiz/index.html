@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Instagram Quiz</title>
+    <link rel="stylesheet" href="../css/quiz.css" />
+</head>
+<body>
+    <header>
+        <h1>Instagram Quiz</h1>
+    </header>
+    <main>
+        <form id="quiz-form">
+            <section class="quiz-step" data-step="1">
+                <h2>Step 1: Who is this figure for?</h2>
+                <label>
+                    <input type="radio" name="figureFor" value="gift" required />
+                    Gift for a friend
+                </label>
+                <label>
+                    <input type="radio" name="figureFor" value="homeDecor" />
+                    Home decor
+                </label>
+                <label>
+                    <input type="radio" name="figureFor" value="collection" />
+                    Collection
+                </label>
+                <label>
+                    <input type="radio" name="figureFor" value="child" />
+                    For a child
+                </label>
+                <button type="button" class="next-btn">Next</button>
+            </section>
+            <section class="quiz-step" data-step="2" hidden>
+                <h2>Step 2: What's the occasion or mood?</h2>
+                <label>
+                    <input type="radio" name="occasion" value="birthday" required />
+                    Birthday
+                </label>
+                <label>
+                    <input type="radio" name="occasion" value="newYear" />
+                    New Year
+                </label>
+                <label>
+                    <input type="radio" name="occasion" value="specialMoment" />
+                    Special moment
+                </label>
+                <label>
+                    <input type="radio" name="occasion" value="justForFun" />
+                    Just for fun
+                </label>
+                <button type="button" class="prev-btn">Back</button>
+                <button type="button" class="next-btn">Next</button>
+            </section>
+            <section class="quiz-step" data-step="3" hidden>
+                <h2>Step 3: Which style do you prefer?</h2>
+                <label>
+                    <input type="radio" name="style" value="minimalism" required />
+                    Minimalism
+                </label>
+                <label>
+                    <input type="radio" name="style" value="popArt" />
+                    Pop art
+                </label>
+                <label>
+                    <input type="radio" name="style" value="streetStyle" />
+                    Street-style
+                </label>
+                <label>
+                    <input type="radio" name="style" value="futurism" />
+                    Futurism
+                </label>
+                <button type="button" class="prev-btn">Back</button>
+                <button type="button" class="next-btn">Next</button>
+            </section>
+            <section class="quiz-step" data-step="4" hidden>
+                <h2>Step 4: What's your budget range?</h2>
+                <label>
+                    <input type="radio" name="budget" value="under100" required />
+                    under €100
+                </label>
+                <label>
+                    <input type="radio" name="budget" value="100to300" />
+                    €100–300
+                </label>
+                <label>
+                    <input type="radio" name="budget" value="over300" />
+                    €300+
+                </label>
+                <button type="button" class="prev-btn">Back</button>
+                <button type="submit" class="submit-btn">See Result</button>
+            </section>
+            <section class="quiz-step" data-step="result" hidden>
+                <h2>Your result 🎉</h2>
+                <p id="result-message"></p>
+                <button type="button" id="copy-message-btn">Copy message</button>
+                <button type="button" id="write-instagram-btn">Write in Instagram</button>
+            </section>
+        </form>
+    </main>
+    <script src="./quiz.js"></script>
+</body>
+</html>
