@@ -113,8 +113,16 @@
 
     // Wire actions
     const englishMsg = buildEnglishMessage(data);
-    const copyBtn = document.getElementById('copy-message-btn');
-    if(copyBtn){ copyBtn.onclick = () => copyToClipboard(englishMsg); }
+
+    // Auto-copy the message when clicking the Instagram button, then open profile
+    const instaBtn = document.getElementById('write-instagram-btn');
+    if(instaBtn){
+      instaBtn.onclick = async (e) => {
+        e.preventDefault();
+        await copyToClipboard(englishMsg);
+        window.open(instaBtn.href, '_blank');
+      };
+    }
 
     // Optionally set Instagram username link here if dynamic is needed
     // const insta = document.getElementById('write-instagram-btn');
