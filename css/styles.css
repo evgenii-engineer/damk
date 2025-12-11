@@ -173,8 +173,8 @@ footer {
   margin-top: 60px;
 
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 60px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
 }
 
 .shop-note {
