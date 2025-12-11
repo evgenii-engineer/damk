@@ -171,10 +171,21 @@ footer {
 .shop {
   text-align: center;
   margin-top: 60px;
+}
 
+.products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 40px;
+  row-gap: 60px;
+  justify-items: center;
+  margin-top: 40px;
+}
+
+@media (max-width: 700px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .shop-note {
