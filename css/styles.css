@@ -171,6 +171,10 @@ footer {
 .shop {
   text-align: center;
   margin-top: 60px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 60px;
 }
 
 .shop-note {
