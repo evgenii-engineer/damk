@@ -395,3 +395,8 @@ footer {
   overflow-wrap: normal !important;
   white-space: normal !important;
 }
+
+.seo-sub{
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
