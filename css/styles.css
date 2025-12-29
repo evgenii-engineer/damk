@@ -358,3 +358,40 @@ footer {
 @media (min-width: 720px) {
   .quiz-step label { padding: 14px 16px; }
 }
+
+/* --- PayPal кнопки: фикс "вертикального текста" --- */
+
+.products-grid{
+  justify-items: stretch;              /* вместо center */
+}
+
+.product{
+  width: 100%;
+  max-width: 380px;                    /* под твой минимализм */
+  margin: 0 auto;                      /* центр внутри колонки */
+}
+
+.product-info{
+  width: 100%;
+}
+
+/* контейнеры PayPal должны иметь нормальную ширину */
+[id^="paypal-container-"]{
+  width: 100%;
+  min-width: 280px;
+}
+
+/* если PayPal рендерит iframe/внутренний блок — тоже растягиваем */
+[id^="paypal-container-"] iframe,
+[id^="paypal-container-"] > div{
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* страховка от "ломания по буквам" */
+[id^="paypal-container-"],
+[id^="paypal-container-"] *{
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  white-space: normal !important;
+}
