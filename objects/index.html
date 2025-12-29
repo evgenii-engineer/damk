@@ -41,11 +41,6 @@
                 <div class="product-info">
 
                     <div id="paypal-container-G4K45YMSFSNVQ"></div>
-                    <script>
-                        paypal.HostedButtons({
-                            hostedButtonId: "G4K45YMSFSNVQ",
-                        }).render("#paypal-container-G4K45YMSFSNVQ")
-                    </script>
                 </div>
             </div>
 
@@ -54,11 +49,6 @@
                 <div class="product-info">
 
                     <div id="paypal-container-RT43W2P8RWU4N"></div>
-                    <script>
-                        paypal.HostedButtons({
-                            hostedButtonId: "RT43W2P8RWU4N",
-                        }).render("#paypal-container-RT43W2P8RWU4N")
-                    </script>
                 </div>
             </div>
         </div>
@@ -112,6 +102,35 @@
             }
         };
         tempImg.src = '../assets/' + next;
+    });
+</script>
+<script>
+    function renderPayPalButtons() {
+        if (!window.paypal || !paypal.HostedButtons) {
+            console.warn("PayPal SDK not ready yet");
+            return false;
+        }
+
+        paypal.HostedButtons({ hostedButtonId: "G4K45YMSFSNVQ" })
+            .render("#paypal-container-G4K45YMSFSNVQ")
+            .catch(console.error);
+
+        paypal.HostedButtons({ hostedButtonId: "RT43W2P8RWU4N" })
+            .render("#paypal-container-RT43W2P8RWU4N")
+            .catch(console.error);
+
+        return true;
+    }
+
+    // Ждём загрузку страницы и даём SDK секунду на инициализацию
+    window.addEventListener("load", () => {
+        if (renderPayPalButtons()) return;
+
+        let tries = 0;
+        const t = setInterval(() => {
+            tries++;
+            if (renderPayPalButtons() || tries > 20) clearInterval(t);
+        }, 150);
     });
 </script>
 </body>
