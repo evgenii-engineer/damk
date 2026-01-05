@@ -38,7 +38,11 @@
     </script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
 
         gtag('config', 'AW-17531340320');
@@ -68,6 +72,14 @@
     <section class="shop">
         <p>you can take these with you. or not.</p>
         <div class="products-grid">
+
+            <div class="product">
+
+                <div class="product-info">
+                    <div id="paypal-container-3HDC7JQY4CUB4"></div>
+                </div>
+            </div>
+
             <div class="product">
 
                 <div class="product-info">
@@ -147,12 +159,18 @@
             return false;
         }
 
-        paypal.HostedButtons({ hostedButtonId: "G4K45YMSFSNVQ" })
+        paypal.HostedButtons({hostedButtonId: "G4K45YMSFSNVQ"})
             .render("#paypal-container-G4K45YMSFSNVQ")
             .catch(console.error);
 
-        paypal.HostedButtons({ hostedButtonId: "RT43W2P8RWU4N" })
+        paypal.HostedButtons({hostedButtonId: "RT43W2P8RWU4N"})
             .render("#paypal-container-RT43W2P8RWU4N")
+            .catch(console.error);
+
+        paypal.HostedButtons({
+            hostedButtonId: "3HDC7JQY4CUB4"
+        })
+            .render("#paypal-container-3HDC7JQY4CUB4")
             .catch(console.error);
 
         return true;
