@@ -42,6 +42,7 @@
                 io.disconnect();
                 try {
                     await loadPayPalSDK();
+                    window.__startPayPalViewportRender && window.__startPayPalViewportRender();
                     // тут вызывай код из решения №1: startObservers()
                     // (можно просто вынести startObservers/renderOne/hostedButtons выше и тут вызвать startObservers())
                 } catch (e) {
@@ -198,44 +199,51 @@
     });
 </script>
 <script>
-    function renderPayPalButtons() {
-        if (!window.paypal || !paypal.HostedButtons) {
-            console.warn("PayPal SDK not ready yet");
-            return false;
-        }
+    const hostedButtons = [
+        "JWJY4E4PNSLHL",
+        "3HDC7JQY4CUB4",
+        "G4K45YMSFSNVQ",
+        "RT43W2P8RWU4N",
+    ];
 
-        paypal.HostedButtons({hostedButtonId: "G4K45YMSFSNVQ"})
-            .render("#paypal-container-G4K45YMSFSNVQ")
-            .catch(console.error);
-
-        paypal.HostedButtons({hostedButtonId: "RT43W2P8RWU4N"})
-            .render("#paypal-container-RT43W2P8RWU4N")
-            .catch(console.error);
-
-        paypal.HostedButtons({
-            hostedButtonId: "3HDC7JQY4CUB4"
-        })
-            .render("#paypal-container-3HDC7JQY4CUB4")
-            .catch(console.error);
-
-        paypal.HostedButtons({
-            hostedButtonId: "JWJY4E4PNSLHL",
-        }).render("#paypal-container-JWJY4E4PNSLHL")
-            .catch(console.error);
-
-        return true;
+    function sdkReady() {
+        return window.paypal && paypal.HostedButtons;
     }
 
-    // Ждём загрузку страницы и даём SDK секунду на инициализацию
-    window.addEventListener("load", () => {
-        if (renderPayPalButtons()) return;
+    function renderOne(id) {
+        const el = document.getElementById("paypal-container-" + id);
+        if (!el) return;
+        if (el.dataset.rendered === "1") return;
 
-        let tries = 0;
-        const t = setInterval(() => {
-            tries++;
-            if (renderPayPalButtons() || tries > 20) clearInterval(t);
-        }, 150);
-    });
+        el.dataset.rendered = "1";
+        paypal.HostedButtons({ hostedButtonId: id })
+            .render("#" + el.id)
+            .catch(console.error);
+    }
+
+    function startPayPalViewportRender() {
+        // если SDK вдруг не готов — просто выходим
+        if (!sdkReady()) return;
+
+        const io = new IntersectionObserver((entries) => {
+            for (const e of entries) {
+                if (!e.isIntersecting) continue;
+                const id = e.target.id.replace("paypal-container-", "");
+                renderOne(id);
+                io.unobserve(e.target);
+            }
+        }, { rootMargin: "200px 0px" });
+
+        for (const id of hostedButtons) {
+            const el = document.getElementById("paypal-container-" + id);
+            if (el) io.observe(el);
+        }
+    }
+
+    // Триггер загрузки SDK оставляем у тебя в head (IntersectionObserver на .shop),
+    // но нужно ДОБАВИТЬ вызов startPayPalViewportRender() после await loadPayPalSDK()
+    // Чтобы не дублировать логику — сделаем глобальную функцию:
+    window.__startPayPalViewportRender = startPayPalViewportRender;
 </script>
 </body>
 </html>
