@@ -76,6 +76,13 @@
             <div class="product">
 
                 <div class="product-info">
+                    <div id="paypal-container-JWJY4E4PNSLHL"></div>
+                </div>
+            </div>
+
+            <div class="product">
+
+                <div class="product-info">
                     <div id="paypal-container-3HDC7JQY4CUB4"></div>
                 </div>
             </div>
@@ -171,6 +178,11 @@
             hostedButtonId: "3HDC7JQY4CUB4"
         })
             .render("#paypal-container-3HDC7JQY4CUB4")
+            .catch(console.error);
+
+        paypal.HostedButtons({
+            hostedButtonId: "JWJY4E4PNSLHL",
+        }).render("#paypal-container-JWJY4E4PNSLHL")
             .catch(console.error);
 
         return true;
