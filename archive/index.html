@@ -106,19 +106,15 @@
             ]
         };
 
-        const seriesData = {
-            hero: 'main.jpg',
-            states: [
-                { title: 'WEIGHT I', file: 'standing.jpg', alt: 'WEIGHT I standing state' },
-                { title: 'WEIGHT II', file: 'sitting.jpg', alt: 'WEIGHT II sitting state' },
-                { title: 'WEIGHT III', file: 'laying.jpg', alt: 'WEIGHT III laying state' }
-            ],
-            process: [
-                { file: 'standing_variation.jpg', alt: 'WEIGHT standing variation' },
-                { file: 'sitting_variation.jpg', alt: 'WEIGHT sitting variation' },
-                { file: 'laying_variation.jpg', alt: 'WEIGHT laying variation' }
-            ]
-        };
+        const seriesCatalog = [
+            {
+                id: 'weight',
+                title: 'WEIGHT',
+                subtitle: 'Sculptural series about a form under pressure.',
+                cover: 'main.jpg',
+                url: '/archive/series/weight/'
+            }
+        ];
 
         const loadedTabs = new Set();
 
@@ -134,82 +130,49 @@
             return img;
         }
 
+        function seriesImagePath(seriesId, file) {
+            return `../assets/archive/series/${seriesId}/optimized/${file}`;
+        }
+
         function renderSeries(section) {
-            const layout = document.createElement('div');
-            layout.className = 'series-layout';
+            const list = document.createElement('div');
+            list.className = 'series-card-grid';
 
-            const textBlock = document.createElement('article');
-            textBlock.className = 'series-text';
-            textBlock.innerHTML = `
-                <h2>WEIGHT</h2>
-                <p class="series-lead">WEIGHT is a sculptural series about a form under pressure.</p>
-                <p>The same figure appears in three different states. What changes is not the body, but its ability to hold itself. The material defines the posture and fixes the moment when the form begins to lose stability.</p>
-                <p>There is no movement. The figure does not resist. It only responds to the force acting on it.</p>
-                <p>The work does not show the moment of collapse. It shows what remains after. The form is still present, but its strength is no longer the same.</p>
-                <p class="series-end">WEIGHT explores the limit between holding and giving in.</p>
-            `;
-            layout.appendChild(textBlock);
+            seriesCatalog.forEach((series) => {
+                const card = document.createElement('article');
+                card.className = 'series-card';
 
-            const hero = document.createElement('figure');
-            hero.className = 'series-hero';
-            const heroLabel = document.createElement('figcaption');
-            heroLabel.className = 'series-label';
-            heroLabel.textContent = 'hero image - whole series';
-            const heroImg = createArchiveImage(
-                `../assets/archive/series/weight/optimized/${seriesData.hero}`,
-                'WEIGHT full series hero image',
-                'eager'
-            );
-            heroImg.fetchPriority = 'high';
-            hero.appendChild(heroLabel);
-            hero.appendChild(heroImg);
-            layout.appendChild(hero);
-
-            const statesGrid = document.createElement('div');
-            statesGrid.className = 'series-states';
-            seriesData.states.forEach((state) => {
-                const card = document.createElement('figure');
-                card.className = 'series-state';
-                const img = createArchiveImage(
-                    `../assets/archive/series/weight/optimized/${state.file}`,
-                    state.alt
+                const thumb = createArchiveImage(
+                    seriesImagePath(series.id, series.cover),
+                    `${series.title} cover image`,
+                    'lazy'
                 );
-                const caption = document.createElement('figcaption');
-                caption.className = 'series-state-title';
-                caption.textContent = state.title;
-                card.appendChild(img);
-                card.appendChild(caption);
-                statesGrid.appendChild(card);
+                thumb.className = 'series-card-image';
+
+                const meta = document.createElement('div');
+                meta.className = 'series-card-meta';
+                meta.innerHTML = `
+                    <strong>${series.title}</strong>
+                    <span>${series.subtitle}</span>
+                `;
+
+                const link = document.createElement('a');
+                link.className = 'series-card-link';
+                link.href = series.url;
+                link.setAttribute('aria-label', `open ${series.title} series`);
+
+                const hint = document.createElement('span');
+                hint.className = 'series-card-hint';
+                hint.textContent = 'open series';
+
+                link.appendChild(thumb);
+                link.appendChild(meta);
+                link.appendChild(hint);
+                card.appendChild(link);
+                list.appendChild(card);
             });
-            layout.appendChild(statesGrid);
 
-            const divider = document.createElement('hr');
-            divider.className = 'series-divider';
-            layout.appendChild(divider);
-
-            const processHead = document.createElement('div');
-            processHead.className = 'series-process-head';
-            processHead.innerHTML = `
-                <h3>Process / variations</h3>
-                <p>additional photos, details, variations.</p>
-            `;
-            layout.appendChild(processHead);
-
-            const processGrid = document.createElement('div');
-            processGrid.className = 'series-process-grid';
-            seriesData.process.forEach((item) => {
-                const card = document.createElement('figure');
-                card.className = 'series-process-item';
-                const img = createArchiveImage(
-                    `../assets/archive/series/weight/optimized/${item.file}`,
-                    item.alt
-                );
-                card.appendChild(img);
-                processGrid.appendChild(card);
-            });
-            layout.appendChild(processGrid);
-
-            section.appendChild(layout);
+            section.appendChild(list);
         }
 
         function loadImagesFor(tab) {
@@ -303,12 +266,16 @@
             });
         });
 
-        const initialFromHash = window.location.hash.replace('#', '');
-        setActiveTab(initialFromHash || 'canvases');
+        const initialHash = window.location.hash.replace('#', '');
+        const initialTab = initialHash.startsWith('series-') ? 'series' : (initialHash || 'canvases');
+        setActiveTab(initialTab);
 
         window.addEventListener('hashchange', () => {
-            const tabFromHash = window.location.hash.replace('#', '');
-            if (tabFromHash) setActiveTab(tabFromHash);
+            const hash = window.location.hash.replace('#', '');
+            const tabFromHash = hash.startsWith('series-') ? 'series' : hash;
+            if (tabFromHash) {
+                setActiveTab(tabFromHash);
+            }
         });
 
         // обезьянка
@@ -345,6 +312,7 @@
         const overlayImg = document.getElementById('overlay-img');
 
         document.getElementById('archive-sections').addEventListener('click', e => {
+            if (e.target.closest('.series-card-link')) return;
             if (e.target.tagName === 'IMG') {
                 overlayImg.src = e.target.src;
                 overlay.classList.remove('hidden');
