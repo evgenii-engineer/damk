@@ -10,49 +10,6 @@
     <script data-goatcounter="https://damk.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
     <link rel="icon" href="../assets/favicon.ico" type="image/x-icon"/>
-<!--    <script-->
-<!--            defer-->
-<!--            src="https://www.paypal.com/sdk/js?client-id=AbsOgdehpSVdrtpfb3T2FQ4nJ6RU9IRvSA3IO7ymtDdNGHywuVeipSWLhePDQ-DYAxl2_3CGNrpD9QDh&components=hosted-buttons&currency=EUR">-->
-<!--    </script>-->
-
-    <script>
-        function loadPayPalSDK() {
-            if (window.__paypalLoading) return window.__paypalLoading;
-            if (window.paypal) return Promise.resolve();
-
-            window.__paypalLoading = new Promise((resolve, reject) => {
-                const s = document.createElement("script");
-                s.src = "https://www.paypal.com/sdk/js?client-id=AbsOgdehpSVdrtpfb3T2FQ4nJ6RU9IRvSA3IO7ymtDdNGHywuVeipSWLhePDQ-DYAxl2_3CGNrpD9QDh&components=hosted-buttons&currency=EUR";
-                s.async = true;
-                s.onload = () => resolve();
-                s.onerror = reject;
-                document.head.appendChild(s);
-            });
-
-            return window.__paypalLoading;
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            // триггер: как только зона shop близко — подгружаем SDK
-            const shop = document.querySelector(".shop");
-            if (!shop) return;
-
-            const io = new IntersectionObserver(async (entries) => {
-                if (!entries.some(e => e.isIntersecting)) return;
-                io.disconnect();
-                try {
-                    await loadPayPalSDK();
-                    window.__startPayPalViewportRender && window.__startPayPalViewportRender();
-                    // тут вызывай код из решения №1: startObservers()
-                    // (можно просто вынести startObservers/renderOne/hostedButtons выше и тут вызвать startObservers())
-                } catch (e) {
-                    console.error(e);
-                }
-            }, { rootMargin: "600px 0px" });
-
-            io.observe(shop);
-        });
-    </script>
 
     <script type="application/ld+json">
         {
@@ -112,33 +69,55 @@
         <p>you can take these with you. or not.</p>
         <div class="products-grid">
 
-            <div class="product">
-
+            <div class="product" id="po-2">
+                <img src="../assets/shop/concrete_po_2.jpg" alt="PO-2 concrete figure" class="product-img"/>
                 <div class="product-info">
-                    <div id="paypal-container-JWJY4E4PNSLHL"></div>
+                    <h3>PO-2</h3>
+                    <p>handmade · raw concrete | plaster · 10 cm</p>
+                    <p class="product-price">plaster €25 · concrete €40</p>
+                    <div class="product-actions">
+                        <a href="https://instagram.com/evg.damk" class="cta-link" target="_blank" rel="noopener">DM me on Instagram</a>
+                        <button class="copy-link-btn" type="button" data-anchor="po-2">copy link</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="product">
-
+            <div class="product" id="weight-3">
+                <img src="../assets/shop/concrete_weight_3.jpg" alt="Weight #3 concrete object" class="product-img"/>
                 <div class="product-info">
-                    <div id="paypal-container-3HDC7JQY4CUB4"></div>
+                    <h3>weight #3</h3>
+                    <p>handmade · raw concrete · 10 cm</p>
+                    <p class="product-price">€30</p>
+                    <div class="product-actions">
+                        <a href="https://instagram.com/evg.damk" class="cta-link" target="_blank" rel="noopener">DM me on Instagram</a>
+                        <button class="copy-link-btn" type="button" data-anchor="weight-3">copy link</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="product">
-
+            <div class="product" id="weight-2">
+                <img src="../assets/shop/concrete_weight_2.jpg" alt="Weight #2 concrete object" class="product-img"/>
                 <div class="product-info">
-
-                    <div id="paypal-container-G4K45YMSFSNVQ"></div>
+                    <h3>weight #2</h3>
+                    <p>handmade · raw concrete · 8 cm</p>
+                    <p class="product-price">€30</p>
+                    <div class="product-actions">
+                        <a href="https://instagram.com/evg.damk" class="cta-link" target="_blank" rel="noopener">DM me on Instagram</a>
+                        <button class="copy-link-btn" type="button" data-anchor="weight-2">copy link</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="product">
-
+            <div class="product" id="weight-1">
+                <img src="../assets/shop/concrete_weight_1.jpg" alt="Weight #1 concrete object" class="product-img"/>
                 <div class="product-info">
-
-                    <div id="paypal-container-RT43W2P8RWU4N"></div>
+                    <h3>weight #1</h3>
+                    <p>handmade · raw concrete · 10 cm</p>
+                    <p class="product-price">€30</p>
+                    <div class="product-actions">
+                        <a href="https://instagram.com/evg.damk" class="cta-link" target="_blank" rel="noopener">DM me on Instagram</a>
+                        <button class="copy-link-btn" type="button" data-anchor="weight-1">copy link</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -199,51 +178,44 @@
     });
 </script>
 <script>
-    const hostedButtons = [
-        "JWJY4E4PNSLHL",
-        "3HDC7JQY4CUB4",
-        "G4K45YMSFSNVQ",
-        "RT43W2P8RWU4N",
-    ];
-
-    function sdkReady() {
-        return window.paypal && paypal.HostedButtons;
+    function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
     }
 
-    function renderOne(id) {
-        const el = document.getElementById("paypal-container-" + id);
-        if (!el) return;
-        if (el.dataset.rendered === "1") return;
-
-        el.dataset.rendered = "1";
-        paypal.HostedButtons({ hostedButtonId: id })
-            .render("#" + el.id)
-            .catch(console.error);
+    function setCopiedState(btn) {
+        const prev = btn.textContent;
+        btn.textContent = 'copied';
+        btn.disabled = true;
+        setTimeout(() => {
+            btn.textContent = prev;
+            btn.disabled = false;
+        }, 1200);
     }
 
-    function startPayPalViewportRender() {
-        // если SDK вдруг не готов — просто выходим
-        if (!sdkReady()) return;
-
-        const io = new IntersectionObserver((entries) => {
-            for (const e of entries) {
-                if (!e.isIntersecting) continue;
-                const id = e.target.id.replace("paypal-container-", "");
-                renderOne(id);
-                io.unobserve(e.target);
+    document.querySelectorAll('.copy-link-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+            const anchor = btn.dataset.anchor;
+            const url = `${window.location.origin}${window.location.pathname}#${anchor}`;
+            try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    await navigator.clipboard.writeText(url);
+                } else {
+                    fallbackCopy(url);
+                }
+                setCopiedState(btn);
+            } catch (e) {
+                fallbackCopy(url);
+                setCopiedState(btn);
             }
-        }, { rootMargin: "200px 0px" });
-
-        for (const id of hostedButtons) {
-            const el = document.getElementById("paypal-container-" + id);
-            if (el) io.observe(el);
-        }
-    }
-
-    // Триггер загрузки SDK оставляем у тебя в head (IntersectionObserver на .shop),
-    // но нужно ДОБАВИТЬ вызов startPayPalViewportRender() после await loadPayPalSDK()
-    // Чтобы не дублировать логику — сделаем глобальную функцию:
-    window.__startPayPalViewportRender = startPayPalViewportRender;
+        });
+    });
 </script>
 </body>
 </html>

@@ -173,10 +173,6 @@ footer {
   margin-top: 60px;
 }
 
-[id^="paypal-container-"]{
-  min-width: 280px;
-}
-
 .products-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -203,6 +199,7 @@ footer {
   flex-direction: column;
   align-items: center;
   margin-bottom: 60px;
+  scroll-margin-top: 24px;
 }
 
 .product-img {
@@ -227,8 +224,26 @@ footer {
   line-height: 1.5;
 }
 
-.product{ width: 320px; } /* или 360 */
+.product-price {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.product{ width: 320px; }
 .product-info{ width: 100%; }
+.product-info .cta-link {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.product-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
 .cta-link {
   color: #8a3ab9;
@@ -238,6 +253,28 @@ footer {
 
 .cta-link:hover {
   opacity: 0.6;
+}
+
+.copy-link-btn {
+  border: 1px solid #000;
+  background: #fff;
+  color: #000;
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1;
+  padding: 8px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.copy-link-btn:hover {
+  opacity: 0.65;
+}
+
+.copy-link-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 /* === Quiz components (site theme, light) === */
@@ -359,41 +396,18 @@ footer {
   .quiz-step label { padding: 14px 16px; }
 }
 
-/* --- PayPal кнопки: фикс "вертикального текста" --- */
-
 .products-grid{
-  justify-items: stretch;              /* вместо center */
+  justify-items: stretch;
 }
 
 .product{
   width: 100%;
-  max-width: 380px;                    /* под твой минимализм */
-  margin: 0 auto;                      /* центр внутри колонки */
+  max-width: 380px;
+  margin: 0 auto;
 }
 
 .product-info{
   width: 100%;
-}
-
-/* контейнеры PayPal должны иметь нормальную ширину */
-[id^="paypal-container-"]{
-  width: 100%;
-  min-width: 280px;
-}
-
-/* если PayPal рендерит iframe/внутренний блок — тоже растягиваем */
-[id^="paypal-container-"] iframe,
-[id^="paypal-container-"] > div{
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-/* страховка от "ломания по буквам" */
-[id^="paypal-container-"],
-[id^="paypal-container-"] *{
-  word-break: normal !important;
-  overflow-wrap: normal !important;
-  white-space: normal !important;
 }
 
 .seo-sub{
