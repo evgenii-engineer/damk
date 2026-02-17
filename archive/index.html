@@ -39,6 +39,7 @@
     <p class="seo-sub">Drawings, handmade objects and visual experiments.</p>
 
     <div class="tabs" id="tabs">
+        <button class="tab-button" data-tab="series">series</button>
         <button class="tab-button active" data-tab="canvases">canvases</button>
         <button class="tab-button" data-tab="figures">figures</button>
         <button class="tab-button" data-tab="jewelry">jewelry</button>
@@ -46,6 +47,7 @@
     </div>
 
     <div id="archive-sections">
+        <section class="gallery-section" data-tab="series"></section>
         <section class="gallery-section active" data-tab="canvases"></section>
         <section class="gallery-section" data-tab="figures"></section>
         <section class="gallery-section" data-tab="jewelry"></section>
@@ -64,6 +66,18 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const data = {
+            series: [
+                'Q1.png',
+                'Q2.png',
+                'Q3.png',
+                'Q4.png',
+                'Q5.png',
+                'Q6.png',
+                'Q7.png',
+                'Q8.png',
+                'Q9.png',
+                'Q10.png'
+            ],
             figures: [
                 '2025_figure5.jpg',
                 '2025_figure4.jpg',
@@ -113,6 +127,20 @@
             const section = document.querySelector(`.gallery-section[data-tab="${tab}"]`);
             if (!section) return;
 
+            if (tab === 'series') {
+                const textBlock = document.createElement('article');
+                textBlock.className = 'series-text';
+                textBlock.innerHTML = `
+                    <h2>WEIGHT</h2>
+                    <p class="series-lead">WEIGHT is a sculptural series about a form under pressure.</p>
+                    <p>The same figure appears in three different states. What changes is not the body, but its ability to hold itself. The material defines the posture and fixes the moment when the form begins to lose stability.</p>
+                    <p>There is no movement. The figure does not resist. It only responds to the force acting on it.</p>
+                    <p>The work does not show the moment of collapse. It shows what remains after. The form is still present, but its strength is no longer the same.</p>
+                    <p class="series-end">WEIGHT explores the limit between holding and giving in.</p>
+                `;
+                section.appendChild(textBlock);
+            }
+
             const grid = document.createElement('div');
             grid.className = 'gallery';
             section.appendChild(grid);
@@ -131,9 +159,11 @@
                 const chunk = files.slice(start, end);
 
                 chunk.forEach((filename) => {
-                    const [year] = filename.split('_');
                     const img = new Image();
-                    img.src = `../assets/archive/${tab}/${filename}`;
+                    const imagePath = tab === 'series'
+                        ? `../assets/archive/series/weight/${filename}`
+                        : `../assets/archive/${tab}/${filename}`;
+                    img.src = imagePath;
                     img.loading = "lazy";
 
                     const wrapper = document.createElement('div');
@@ -141,7 +171,12 @@
 
                     const caption = document.createElement('div');
                     caption.className = 'caption';
-                    caption.textContent = year;
+                    if (tab === 'series') {
+                        caption.textContent = `WEIGHT · ${filename.replace('.png', '')}`;
+                    } else {
+                        const [year] = filename.split('_');
+                        caption.textContent = year;
+                    }
 
                     wrapper.appendChild(img);
                     wrapper.appendChild(caption);
@@ -167,22 +202,36 @@
             observer.observe(sentinel);
         }
 
-        // начальная вкладка
-        loadImagesFor('canvases');
-
         const buttons = document.querySelectorAll('.tab-button');
         const sections = document.querySelectorAll('.gallery-section');
 
+        function setActiveTab(tab, updateHash = false) {
+            const hasTab = Array.from(buttons).some(b => b.dataset.tab === tab);
+            const targetTab = hasTab ? tab : 'canvases';
+
+            buttons.forEach(b => b.classList.toggle('active', b.dataset.tab === targetTab));
+            sections.forEach(s => {
+                s.classList.toggle('active', s.dataset.tab === targetTab);
+            });
+            loadImagesFor(targetTab);
+
+            if (updateHash) {
+                history.replaceState(null, '', `#${targetTab}`);
+            }
+        }
+
         buttons.forEach(btn => {
             btn.addEventListener('click', () => {
-                const tab = btn.dataset.tab;
-                buttons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                sections.forEach(s => {
-                    s.classList.toggle('active', s.dataset.tab === tab);
-                });
-                loadImagesFor(tab);
+                setActiveTab(btn.dataset.tab, true);
             });
+        });
+
+        const initialFromHash = window.location.hash.replace('#', '');
+        setActiveTab(initialFromHash || 'canvases');
+
+        window.addEventListener('hashchange', () => {
+            const tabFromHash = window.location.hash.replace('#', '');
+            if (tabFromHash) setActiveTab(tabFromHash);
         });
 
         // обезьянка
