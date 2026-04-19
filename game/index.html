@@ -24,15 +24,23 @@
       top: 10px;
       left: 0;
       width: 100%;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px 16px;
       font-family: 'Space Grotesk', sans-serif;
+      padding: 0 12px;
+      box-sizing: border-box;
     }
     nav a {
       text-decoration: none;
       color: black;
-      margin: 0 8px;
       font-size: 16px;
       font-family: 'Space Grotesk', sans-serif;
+    }
+    nav a[aria-current="page"] {
+      text-decoration: underline;
+      text-underline-offset: 0.18em;
     }
     nav a:hover {
       text-decoration: underline;
@@ -48,7 +56,9 @@
     <a href="/">about</a>
     <a href="/archive">archive</a>
     <a href="/shop">shop</a>
-    <a href="/game">game</a>
+    <a href="/game" aria-current="page">game</a>
+    <a href="/press">press</a>
+    <a href="/contact">contact</a>
   </nav>
 
   <canvas id="game"></canvas>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="canonical" href="https://evgdamk.com/contact/"/>
+    <title>Contact — EVG DAMK</title>
+    <meta name="description"
+          content="Contact EVG DAMK for interviews, collaborations, exhibitions and commissions.">
+    <link rel="stylesheet" href="/css/styles.css"/>
+    <script data-goatcounter="https://damk.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon"/>
+</head>
+<body class="info-page">
+<header>
+    <nav>
+        <a href="/">about</a>
+        <a href="/archive">archive</a>
+        <a href="/shop">shop</a>
+        <a href="/game">game</a>
+        <a href="/press">press</a>
+        <a href="/contact" aria-current="page">contact</a>
+    </nav>
+</header>
+
+<main class="info-main">
+    <section class="info-copy">
+        <p class="page-kicker">EVG DAMK</p>
+        <h1>Contact</h1>
+        <p class="page-lead">For interviews, collaborations, exhibitions and commissions, feel free to contact me.</p>
+    </section>
+
+    <section class="info-links" aria-label="Contact methods">
+        <a class="info-link" href="mailto:evgenii.damk@gmail.com">
+            <span class="info-label">Email</span>
+            <span class="info-value">evgenii.damk@gmail.com</span>
+        </a>
+        <a class="info-link" href="https://instagram.com/evg.damk" target="_blank" rel="noopener">
+            <span class="info-label">Instagram</span>
+            <span class="info-value">@evg.damk</span>
+        </a>
+    </section>
+</main>
+
+<footer>
+    <img src="/assets/monkey1.png" alt="monkey" class="monkey" id="monkey"/>
+</footer>
+
+<script>
+    const monkey = document.getElementById('monkey');
+    const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
+    let clickable = true;
+
+    monkey.addEventListener('click', () => {
+        if (!clickable) return;
+
+        const current = monkey.getAttribute('src').split('/').pop();
+        const others = images.filter(img => img !== current);
+        const next = others[Math.floor(Math.random() * others.length)];
+
+        const tempImg = new Image();
+        tempImg.onload = () => {
+            monkey.setAttribute('src', '/assets/' + next);
+
+            if (next === 'monkey3.png') {
+                clickable = false;
+
+                monkey.style.transition = 'none';
+                monkey.style.transform = 'rotate(0deg) scale(1)';
+                void monkey.offsetWidth;
+                monkey.style.transition = 'transform 1.8s ease-in-out';
+                monkey.style.transform = 'rotate(1440deg) scale(2.5)';
+
+                setTimeout(() => {
+                    monkey.style.transform = 'rotate(0deg) scale(1)';
+                    clickable = true;
+                }, 2000);
+            }
+        };
+        tempImg.src = '/assets/' + next;
+    });
+</script>
+</body>
+</html>

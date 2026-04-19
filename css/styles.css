@@ -27,6 +27,11 @@ header nav a {
   transition: opacity 0.2s ease;
 }
 
+header nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
 header nav a:hover {
   opacity: 0.5;
 }
@@ -693,5 +698,90 @@ footer {
 
   .series-states {
     grid-template-columns: 1fr;
+  }
+}
+
+.info-page main {
+  max-width: 760px;
+  text-align: left;
+}
+
+.info-main {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.page-kicker {
+  margin: 0 0 10px;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6f6f6f;
+}
+
+.info-copy h1 {
+  margin: 0 0 16px;
+  font-size: 2rem;
+}
+
+.page-lead {
+  margin: 0 0 14px;
+  max-width: 38ch;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.info-copy p {
+  margin: 0 0 14px;
+  line-height: 1.6;
+}
+
+.info-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.info-links {
+  border-top: 1px solid #e6e6e6;
+}
+
+.info-link {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+  padding: 16px 0;
+  border-bottom: 1px solid #e6e6e6;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.info-link:hover {
+  background: #f7f7f7;
+  opacity: 1;
+}
+
+.info-label {
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6f6f6f;
+}
+
+.info-value {
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+@media (max-width: 640px) {
+  .info-copy h1 {
+    font-size: 1.6rem;
+  }
+
+  .info-link {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 14px 0;
   }
 }

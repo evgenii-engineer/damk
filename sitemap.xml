@@ -5,15 +5,23 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://evgdamk.com/archive</loc>
+    <loc>https://evgdamk.com/archive/</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://evgdamk.com/shop</loc>
+    <loc>https://evgdamk.com/shop/</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://evgdamk.com/runner</loc>
+    <loc>https://evgdamk.com/game/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://evgdamk.com/press/</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://evgdamk.com/contact/</loc>
     <priority>0.8</priority>
   </url>
 </urlset>
