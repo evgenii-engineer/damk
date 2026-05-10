@@ -5,12 +5,87 @@
    - lazy image fade-in
    - signature stamp oracle (cycles quiet phrases on click)
    - cinematic page fade-in
+   - theme switcher (01 · night / 02 · day)
 */
 
 (function () {
   'use strict';
 
   /* page fade is now CSS-driven — no JS toggle needed */
+
+  /* ---------- theme switcher (01 · 02) ----------
+     Dark is the primary identity. Light is the editorial counterpart.
+     The transition runs through a brief tonal "curtain" — like
+     dimming the lights in an exhibition space — never a flash. */
+  const THEME_KEY = 'damk-theme';
+  const THEME_COLOR = { dark: '#0a0a0a', light: '#e8e2d4' };
+
+  function readTheme() {
+    try {
+      const v = localStorage.getItem(THEME_KEY);
+      return v === 'light' ? 'light' : 'dark';
+    } catch (_) { return 'dark'; }
+  }
+
+  function applyTheme(theme, opts) {
+    const next = theme === 'light' ? 'light' : 'dark';
+    if (next === 'light') document.documentElement.dataset.theme = 'light';
+    else delete document.documentElement.dataset.theme;
+
+    // meta theme-color for mobile chrome / standalone
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', THEME_COLOR[next]);
+
+    // switcher aria-label only — visual active state is driven by CSS
+    // off [data-theme] on <html> (no flicker from a JS post-paint update)
+    document.querySelectorAll('.theme-switch').forEach((sw) => {
+      sw.setAttribute('aria-label',
+        next === 'light' ? 'Switch to night mode (01)' : 'Switch to gallery mode (02)');
+    });
+
+    if (opts && opts.persist) {
+      try { localStorage.setItem(THEME_KEY, next); } catch (_) {}
+    }
+  }
+
+  function runCurtainAndSwap(nextTheme) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      applyTheme(nextTheme, { persist: true });
+      return;
+    }
+    let curtain = document.querySelector('.theme-curtain');
+    if (!curtain) {
+      curtain = document.createElement('div');
+      curtain.className = 'theme-curtain';
+      document.body.appendChild(curtain);
+    }
+    // tint with the *current* ink so the swap reads as a held breath
+    curtain.style.background = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
+    requestAnimationFrame(() => {
+      curtain.classList.add('is-on');
+      setTimeout(() => {
+        applyTheme(nextTheme, { persist: true });
+        // small delay so transitions on body/header start under the curtain
+        setTimeout(() => {
+          curtain.classList.remove('is-on');
+        }, 80);
+      }, 320);
+    });
+  }
+
+  // Apply persisted theme up front (the inline head script already
+  // set the attribute pre-paint; this call only refreshes UI state)
+  applyTheme(readTheme(), { persist: false });
+
+  document.querySelectorAll('.theme-switch').forEach((sw) => {
+    sw.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const current = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+      runCurtainAndSwap(current === 'light' ? 'dark' : 'light');
+    });
+  });
 
   /* ---------- expandable nav ---------- */
   document.querySelectorAll('.has-sub').forEach((li) => {

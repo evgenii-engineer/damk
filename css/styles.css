@@ -13,6 +13,14 @@
   --accent: #4a6c8c;
   --accent-soft: rgba(74, 108, 140, 0.18);
 
+  /* surface tuples — used inside rgba() for translucent layers
+     so theming flips background-tinted overlays in lockstep with --ink */
+  --bg-rgb: 10, 10, 10;
+  --hero-fade: 10, 10, 10;
+
+  --noise-blend: overlay;
+  --noise-opacity: 0.05;
+
   --font: 'Space Grotesk', system-ui, -apple-system, sans-serif;
 
   --pad-x: clamp(20px, 5vw, 56px);
@@ -44,9 +52,10 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 200;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: var(--noise-blend);
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  transition: opacity 0.8s var(--ease);
 }
 
 a { color: inherit; }
@@ -60,7 +69,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(10, 10, 10, 0.78);
+  background: rgba(var(--bg-rgb), 0.78);
   backdrop-filter: saturate(1.2) blur(10px);
   -webkit-backdrop-filter: saturate(1.2) blur(10px);
   border-bottom: 1px solid var(--line);
@@ -264,7 +273,7 @@ footer {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.25) 45%, rgba(10,10,10,0.92) 100%);
+  background: linear-gradient(180deg, rgba(var(--hero-fade),0.55) 0%, rgba(var(--hero-fade),0.25) 45%, rgba(var(--hero-fade),0.92) 100%);
   z-index: -1;
 }
 
@@ -541,7 +550,7 @@ footer {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--bone-soft);
-  background: rgba(10,10,10,0.5);
+  background: rgba(var(--bg-rgb),0.5);
   padding: 4px 8px;
   backdrop-filter: blur(4px);
   pointer-events: none;
@@ -551,7 +560,7 @@ footer {
 #image-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(8,8,8,0.96);
+  background: rgba(var(--bg-rgb),0.96);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1401,8 +1410,8 @@ img[loading="lazy"]:not([data-no-fade]).loaded { opacity: 1; }
 /* === Hero refinement: layered vignette === */
 .hero::after {
   background:
-    radial-gradient(ellipse at 50% 35%, transparent 0%, rgba(10,10,10,0.55) 85%),
-    linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.2) 45%, rgba(10,10,10,0.95) 100%);
+    radial-gradient(ellipse at 50% 35%, transparent 0%, rgba(var(--hero-fade),0.55) 85%),
+    linear-gradient(180deg, rgba(var(--hero-fade),0.55) 0%, rgba(var(--hero-fade),0.2) 45%, rgba(var(--hero-fade),0.95) 100%);
 }
 
 /* === Cinematic next-link (page exit) === */
@@ -1597,5 +1606,269 @@ body.page-fade {
     background: var(--line);
     pointer-events: none;
   }
+}
+
+/* ============================================================
+   LIGHT MODE · paper · concrete · gallery daylight
+   "the same universe in a different emotional environment"
+   ============================================================ */
+
+[data-theme="light"] {
+  --ink:        #e8e2d4;          /* warm paper */
+  --graphite:   #ddd5c2;          /* slightly darker paper — surfaces */
+  --concrete:   #d2c9b3;          /* concrete tone */
+  --concrete-2: #c8beA5;
+  --bone:       #1a1815;          /* deep warm charcoal — body text */
+  --bone-soft:  rgba(26, 24, 21, 0.74);
+  --fog:        rgba(26, 24, 21, 0.46);
+  --line:       rgba(26, 24, 21, 0.10);
+  --line-strong:rgba(26, 24, 21, 0.20);
+  --accent:     #3d5775;          /* deeper print blue — sits against paper */
+  --accent-soft:rgba(61, 87, 117, 0.16);
+
+  --bg-rgb:     232, 226, 212;
+  --hero-fade:  232, 226, 212;
+
+  --noise-blend: multiply;
+  --noise-opacity: 0.07;
+
+  color-scheme: light;
+}
+
+/* === Cinematic transition: tonal shifts, not flashes ===
+   Scoped to a small set of surface elements so we never
+   transition arbitrary hover styles or layout properties. */
+body,
+header,
+footer,
+main,
+.hero::after,
+.silence,
+.next-link,
+.tabs,
+.gallery-item,
+.product-img,
+.quiz-step,
+.quiz-step label,
+.quiz-step input[type=radio],
+.next-btn, .prev-btn, .submit-btn, .btn,
+.copy-link-btn,
+.cta-link,
+.product-actions .cta-link,
+.quiz-banner,
+#image-overlay,
+.caption,
+.info-link,
+.bio-meta .row,
+.series-card-image,
+.series-text,
+.sub,
+.sub a {
+  transition:
+    background-color 0.7s var(--ease),
+    background 0.7s var(--ease),
+    color 0.7s var(--ease),
+    border-color 0.7s var(--ease);
+}
+
+/* image filters fade their tonality with the theme */
+.hero-bg,
+.bio-image,
+.about-img,
+.gallery-item img,
+.product-img,
+.series-card-image,
+.series-hero img,
+.series-state img,
+.series-process-item img,
+.monkey {
+  transition:
+    filter 0.9s var(--ease),
+    opacity 0.9s var(--ease),
+    transform 0.6s var(--ease);
+}
+
+/* === Light-mode atmospheric adaptations ===
+   Subtle, never showy. The image becomes a printed plate;
+   the noise becomes paper grain; the accent quiets down. */
+
+/* Hero: image floats like a printed plate on paper */
+[data-theme="light"] .hero-bg {
+  filter: grayscale(0.92) contrast(0.88) brightness(0.98);
+  opacity: 0.55;
+}
+[data-theme="light"] .hero::after {
+  background:
+    radial-gradient(ellipse at 50% 38%, transparent 0%, rgba(var(--hero-fade),0.7) 85%),
+    linear-gradient(180deg,
+      rgba(var(--hero-fade),0.42) 0%,
+      rgba(var(--hero-fade),0.18) 42%,
+      rgba(var(--hero-fade),0.98) 100%);
+}
+
+/* Bio image: gallery-print feel */
+[data-theme="light"] .bio-image,
+[data-theme="light"] .about-img {
+  filter: grayscale(0.55) contrast(0.96) brightness(1.02);
+}
+
+/* Gallery & product images: muted print palette,
+   regain full colour on hover (kept consistent with dark) */
+[data-theme="light"] .gallery-item img,
+[data-theme="light"] .product-img,
+[data-theme="light"] .series-card-image,
+[data-theme="light"] .series-process-item img,
+[data-theme="light"] .series-hero img,
+[data-theme="light"] .series-state img {
+  filter: grayscale(0.18) contrast(0.96) saturate(0.94);
+}
+[data-theme="light"] .gallery-item:hover img,
+[data-theme="light"] .product:hover .product-img,
+[data-theme="light"] .series-card-link:hover .series-card-image {
+  filter: grayscale(0) contrast(1.0) saturate(1.0);
+}
+
+/* gallery-item surface — paper rather than graphite */
+[data-theme="light"] .gallery-item {
+  background: var(--graphite);
+}
+
+/* Caption pill: paper label with charcoal text — catalog feel */
+[data-theme="light"] .caption {
+  background: rgba(var(--bg-rgb), 0.78);
+  color: var(--bone);
+}
+
+/* Hover gradient at bottom of gallery items: lift the paper instead of darken */
+[data-theme="light"] .gallery-item::before {
+  background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(26,24,21,0.10) 100%);
+}
+
+/* Footer monkey: stronger contrast against paper */
+[data-theme="light"] .monkey {
+  filter: grayscale(0.5) brightness(0.85) contrast(1.05);
+  opacity: 0.6;
+}
+
+/* Stamp: difference-blend looks wrong against paper — go quiet & direct */
+[data-theme="light"] .stamp {
+  mix-blend-mode: normal;
+  color: var(--bone);
+  opacity: 0.42;
+}
+[data-theme="light"] .stamp:hover { opacity: 0.85; }
+
+/* Selection: keep cream on blue for legibility */
+[data-theme="light"] ::selection {
+  background: var(--accent);
+  color: #f3ecdb;
+}
+
+/* Sub-nav: paper surface */
+[data-theme="light"] .sub {
+  background: var(--graphite);
+  border-color: var(--line-strong);
+}
+[data-theme="light"] .sub a:hover {
+  background: var(--concrete);
+}
+
+/* Quiz: paper card on paper page */
+[data-theme="light"] .quiz-step,
+[data-theme="light"] #result-message {
+  background: var(--graphite);
+  border-color: var(--line-strong);
+}
+[data-theme="light"] .quiz-step label {
+  background: var(--concrete);
+  border-color: var(--line);
+}
+[data-theme="light"] .quiz-step label:has(input[type=radio]:checked) {
+  background: var(--concrete-2);
+}
+
+/* Info-link hover: paper deepens slightly */
+[data-theme="light"] .info-link:hover {
+  background: var(--graphite);
+}
+
+/* Next-link hover: paper deepens slightly */
+[data-theme="light"] .next-link:hover {
+  background: linear-gradient(180deg, transparent 0%, var(--graphite) 100%);
+}
+
+/* ============================================================
+   THEME SWITCHER · 01 / 02
+   Small editorial control. Sits at the end of the nav.
+   No emojis, no icons — index numbers in the catalog grammar.
+   ============================================================ */
+
+.theme-switch {
+  appearance: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--bone);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0 6px 16px;
+  margin-left: 4px;
+  border-left: 1px solid var(--line);
+  transition: border-color 0.5s var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.theme-switch:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.theme-mode {
+  color: var(--bone);
+  opacity: 0.34;
+  transition: opacity 0.5s var(--ease);
+}
+:root:not([data-theme="light"]) .theme-mode[data-mode="dark"],
+[data-theme="light"] .theme-mode[data-mode="light"] { opacity: 1; }
+
+.theme-divider {
+  color: var(--bone);
+  opacity: 0.30;
+  font-size: 9px;
+  transform: translateY(-1px);
+}
+
+.theme-switch:hover .theme-mode { opacity: 0.85; }
+:root:not([data-theme="light"]) .theme-switch:hover .theme-mode[data-mode="dark"],
+[data-theme="light"] .theme-switch:hover .theme-mode[data-mode="light"] { opacity: 1; }
+
+@media (max-width: 720px) {
+  .theme-switch {
+    margin-left: 2px;
+    padding-left: 12px;
+    gap: 6px;
+    font-size: 10px;
+  }
+}
+
+/* Cross-fade tint on global theme switch — a held breath, not a flash.
+   Activated by JS for ~700ms when the user toggles the theme. */
+.theme-curtain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 250;
+  background: var(--ink);
+  opacity: 0;
+  transition: opacity 0.55s var(--ease);
+}
+.theme-curtain.is-on { opacity: 0.32; }
+@media (prefers-reduced-motion: reduce) {
+  .theme-curtain { display: none; }
 }
 
