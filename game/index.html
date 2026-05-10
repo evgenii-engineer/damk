@@ -11,7 +11,8 @@
       padding: 0;
       background: #fff;
       overflow: hidden;
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      color: #0a0a0a;
     }
     canvas {
       display: block;
@@ -19,31 +20,53 @@
       height: 100vh;
       touch-action: manipulation;
     }
-    nav {
+    .game-nav {
       position: absolute;
-      top: 10px;
+      top: 0;
       left: 0;
-      width: 100%;
+      right: 0;
       display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px 16px;
-      font-family: 'Space Grotesk', sans-serif;
-      padding: 0 12px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
       box-sizing: border-box;
+      z-index: 10;
+      pointer-events: none;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: lowercase;
     }
-    nav a {
+    .game-nav .brand {
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #0a0a0a;
       text-decoration: none;
-      color: black;
-      font-size: 16px;
-      font-family: 'Space Grotesk', sans-serif;
+      pointer-events: auto;
     }
-    nav a[aria-current="page"] {
-      text-decoration: underline;
-      text-underline-offset: 0.18em;
+    .game-nav .right {
+      display: flex;
+      gap: 22px;
+      pointer-events: auto;
     }
-    nav a:hover {
-      text-decoration: underline;
+    .game-nav a {
+      color: #0a0a0a;
+      text-decoration: none;
+      opacity: 0.55;
+      transition: opacity 0.2s ease;
+    }
+    .game-nav a:hover { opacity: 1; }
+    .game-tag {
+      position: absolute;
+      bottom: 18px;
+      left: 24px;
+      font-size: 10px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #0a0a0a;
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 10;
     }
   </style>
 
@@ -52,14 +75,15 @@
   <link rel="icon" href="../assets/favicon.ico" type="image/x-icon" />
 </head>
 <body>
-  <nav>
-    <a href="/">about</a>
-    <a href="/archive">archive</a>
-    <a href="/shop">shop</a>
-    <a href="/game" aria-current="page">game</a>
-    <a href="/press">press</a>
-    <a href="/contact">contact</a>
+  <nav class="game-nav" aria-label="Primary">
+    <a class="brand" href="/" aria-label="DAMK home">DAMK</a>
+    <div class="right">
+      <a href="/archive/">works</a>
+      <a href="/shop/">shop</a>
+      <a href="/contact/">contact</a>
+    </div>
   </nav>
+  <span class="game-tag">DAMK · Runner / 01</span>
 
   <canvas id="game"></canvas>
   <script>

@@ -7,17 +7,38 @@
 
     <meta name="description"
           content="Interactive quiz to help you find a personal art object or idea based on your mood and preferences.">
+    <meta name="theme-color" content="#0a0a0a"/>
     <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon"/>
 </head>
-<body>
+<body class="info-page">
     <header>
-        <h1>Find your personal art object</h1>
-
-        <p class="seo-sub">
-            Answer a few questions to explore a fitting art idea or object.
-        </p>
+        <nav aria-label="Primary">
+            <a class="brand" href="/" aria-label="DAMK home">DAMK</a>
+            <ul class="nav-list">
+                <li class="has-sub">
+                    <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false">works</button>
+                    <ul class="sub" role="menu">
+                        <li><a href="/archive/">all</a></li>
+                        <li><a href="/archive/#series">series</a></li>
+                        <li><a href="/archive/#canvases">canvases</a></li>
+                        <li><a href="/archive/#figures">figures</a></li>
+                        <li><a href="/archive/#jewelry">jewelry</a></li>
+                        <li><a href="/archive/#other">other</a></li>
+                    </ul>
+                </li>
+                <li><a href="/shop/">shop</a></li>
+                <li><a href="/press/">press</a></li>
+                <li><a href="/contact/">contact</a></li>
+            </ul>
+        </nav>
     </header>
-    <main>
+    <main class="info-main">
+        <section class="info-copy">
+            <p class="page-kicker">Quiz · 60 seconds</p>
+            <h1>Find your object</h1>
+            <p class="page-lead">A few quiet questions to find a fitting art idea or object.</p>
+        </section>
         <form id="quiz-form">
             <section class="quiz-step" data-step="1">
                 <h2>Step 1: Who is this figure for?</h2>
@@ -105,6 +126,65 @@
             </section>
         </form>
     </main>
+
+    <footer>
+        <img src="/assets/monkey1.png" alt="" class="monkey" id="monkey"/>
+        <div class="foot-meta">
+            <span>EVG DAMK © 2024 — present</span>
+            <span class="dot">·</span>
+            <a href="/game/" aria-label="play">play</a>
+        </div>
+    </footer>
+
+    <script>
+        /* expandable nav */
+        document.querySelectorAll('.has-sub').forEach((li) => {
+            const btn = li.querySelector('.nav-trigger');
+            if (!btn) return;
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const open = li.getAttribute('data-open') === 'true';
+                document.querySelectorAll('.has-sub[data-open="true"]').forEach(o => o.setAttribute('data-open', 'false'));
+                li.setAttribute('data-open', open ? 'false' : 'true');
+                btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+            });
+        });
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.has-sub[data-open="true"]').forEach(o => {
+                o.setAttribute('data-open', 'false');
+                const b = o.querySelector('.nav-trigger');
+                if (b) b.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        /* monkey */
+        const monkey = document.getElementById('monkey');
+        const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
+        let clickable = true;
+        if (monkey) monkey.addEventListener('click', () => {
+            if (!clickable) return;
+            const current = monkey.getAttribute('src').split('/').pop();
+            const others = images.filter(img => img !== current);
+            const next = others[Math.floor(Math.random() * others.length)];
+            const tempImg = new Image();
+            tempImg.onload = () => {
+                monkey.setAttribute('src', '/assets/' + next);
+                if (next === 'monkey3.png') {
+                    clickable = false;
+                    monkey.style.transition = 'none';
+                    monkey.style.transform = 'rotate(0deg) scale(1)';
+                    void monkey.offsetWidth;
+                    monkey.style.transition = 'transform 1.8s ease-in-out';
+                    monkey.style.transform = 'rotate(1440deg) scale(2.5)';
+                    setTimeout(() => {
+                        monkey.style.transform = 'rotate(0deg) scale(1)';
+                        clickable = true;
+                    }, 2000);
+                }
+            };
+            tempImg.src = '/assets/' + next;
+        });
+    </script>
     <script src="./quiz.js"></script>
 </body>
 </html>

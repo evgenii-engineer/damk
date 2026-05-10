@@ -26,19 +26,33 @@
 </head>
 <body>
 <header>
-    <nav>
-        <a href="/">about</a>
-        <a href="/archive" aria-current="page">archive</a>
-        <a href="/shop">shop</a>
-        <a href="/game">game</a>
-        <a href="/press">press</a>
-        <a href="/contact">contact</a>
+    <nav aria-label="Primary">
+        <a class="brand" href="/" aria-label="DAMK home">DAMK</a>
+        <ul class="nav-list">
+            <li class="has-sub">
+                <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-current="true">works</button>
+                <ul class="sub" role="menu">
+                    <li><a href="/archive/">all</a></li>
+                    <li><a href="/archive/#series">series</a></li>
+                    <li><a href="/archive/#canvases">canvases</a></li>
+                    <li><a href="/archive/#figures">figures</a></li>
+                    <li><a href="/archive/#jewelry">jewelry</a></li>
+                    <li><a href="/archive/#other">other</a></li>
+                </ul>
+            </li>
+            <li><a href="/shop/">shop</a></li>
+            <li><a href="/press/">press</a></li>
+            <li><a href="/contact/">contact</a></li>
+        </ul>
     </nav>
 </header>
 
 <main>
-    <h1>Artworks archive</h1>
-    <p class="seo-sub">Drawings, handmade objects and visual experiments.</p>
+    <section class="page-head">
+        <p class="page-kicker">Archive · 2023 — present</p>
+        <h1>Works</h1>
+        <p class="page-lead">Drawings, handmade objects, sculptural series and visual experiments. Quiet artifacts, made and kept.</p>
+    </section>
 
     <div class="tabs" id="tabs">
         <button class="tab-button" data-tab="series">series</button>
@@ -62,10 +76,35 @@
 </div>
 
 <footer>
-    <img src="../assets/monkey1.png" alt="monkey" class="monkey" id="monkey"/>
+    <img src="../assets/monkey1.png" alt="" class="monkey" id="monkey"/>
+    <div class="foot-meta">
+        <span>EVG DAMK © 2024 — present</span>
+        <span class="dot">·</span>
+        <a href="/game/" aria-label="play">play</a>
+    </div>
 </footer>
 
 <script>
+    /* expandable nav (touch/click fallback) */
+    document.querySelectorAll('.has-sub').forEach((li) => {
+        const btn = li.querySelector('.nav-trigger');
+        if (!btn) return;
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const open = li.getAttribute('data-open') === 'true';
+            document.querySelectorAll('.has-sub[data-open="true"]').forEach(o => o.setAttribute('data-open', 'false'));
+            li.setAttribute('data-open', open ? 'false' : 'true');
+            btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+        });
+    });
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.has-sub[data-open="true"]').forEach(o => {
+            o.setAttribute('data-open', 'false');
+            const b = o.querySelector('.nav-trigger');
+            if (b) b.setAttribute('aria-expanded', 'false');
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', () => {
         const data = {
             figures: [
