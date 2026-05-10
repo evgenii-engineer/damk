@@ -203,7 +203,29 @@ header nav > a[aria-current="page"] {
 @media (max-width: 720px) {
   header nav { gap: 14px; padding: 12px var(--pad-x); }
   .nav-list { gap: 18px; }
-  .sub { left: auto; right: 0; }
+  /* on mobile the works trigger is the leftmost nav item — open the
+     dropdown rightward so it stays in the viewport (right: 0 used to
+     anchor it to the trigger and overflow off the left edge) */
+  .sub { left: 0; right: auto; min-width: 180px; }
+}
+
+/* very small screens: lift the theme switch out of the nav flex flow
+   so the four nav items don't get squeezed by 01·02 */
+@media (max-width: 540px) {
+  header nav { padding-right: calc(var(--pad-x) + 58px); }
+  .nav-list { gap: 16px; }
+  .theme-switch {
+    position: absolute;
+    top: 50%;
+    right: var(--pad-x);
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 4px 0 4px 10px;
+    font-size: 10px;
+    gap: 5px;
+  }
+  /* with the switch out of flow, the dropdown can extend to the page edge */
+  .sub { left: 0; min-width: 200px; }
 }
 
 /* === Main / Footer === */
