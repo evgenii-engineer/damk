@@ -1539,12 +1539,22 @@ body.page-fade {
 .bio-meta {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin: 28px 0 24px;
+  gap: 0;
+  margin: 0;
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fog);
+}
+
+.bio-side {
+  position: sticky;
+  top: 80px;
+  align-self: start;
+}
+.bio-side .page-kicker { margin-bottom: 18px; }
+@media (max-width: 800px) {
+  .bio-side { position: static; top: auto; margin-top: 8px; }
 }
 .bio-meta .row {
   display: grid;
