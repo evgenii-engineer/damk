@@ -1327,19 +1327,25 @@ footer {
   color: var(--accent);
 }
 
-/* === Reveal-on-scroll === */
+/* === Reveal-on-scroll ===
+   safety: CSS keyframe fallback shows everything after 4s if JS never fires */
 [data-reveal] {
   opacity: 0;
   transform: translateY(14px);
   transition: opacity 1.1s var(--ease), transform 1.1s var(--ease);
+  animation: revealFallback 0.8s var(--ease) 4s forwards;
   will-change: opacity, transform;
 }
 [data-reveal].in {
   opacity: 1;
   transform: translateY(0);
+  animation: none;
+}
+@keyframes revealFallback {
+  to { opacity: 1; transform: translateY(0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] { opacity: 1; transform: none; }
+  [data-reveal] { opacity: 1; transform: none; animation: none; }
 }
 
 /* === Image fade-in on load === */
@@ -1482,14 +1488,16 @@ img[loading="lazy"]:not([data-no-fade]).loaded { opacity: 1; }
   .stamp { transition: none; }
 }
 
-/* === Page fade on first paint === */
+/* === Page fade on first paint (CSS-driven, no JS dependency) === */
 body.page-fade {
-  opacity: 0;
-  transition: opacity 0.6s var(--ease);
+  animation: pageFadeIn 0.6s var(--ease) 0.04s both;
 }
-body.page-fade.ready { opacity: 1; }
+@keyframes pageFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 @media (prefers-reduced-motion: reduce) {
-  body.page-fade { opacity: 1; }
+  body.page-fade { animation: none; opacity: 1; }
 }
 
 /* === Nav: slow underline reveal on hover === */

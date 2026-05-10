@@ -10,11 +10,7 @@
 (function () {
   'use strict';
 
-  /* ---------- page fade-in ---------- */
-  document.documentElement.classList.add('page-fade-ready');
-  if (document.body.classList.contains('page-fade')) {
-    requestAnimationFrame(() => document.body.classList.add('ready'));
-  }
+  /* page fade is now CSS-driven — no JS toggle needed */
 
   /* ---------- expandable nav ---------- */
   document.querySelectorAll('.has-sub').forEach((li) => {
@@ -68,18 +64,28 @@
 
   /* ---------- reveal-on-scroll ---------- */
   const revealEls = document.querySelectorAll('[data-reveal]');
+  function revealNow(el) { el.classList.add('in'); }
+
   if (revealEls.length && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
+        // reveal if visible OR already scrolled past (scroll restoration on reload)
+        if (entry.isIntersecting || entry.boundingClientRect.bottom <= 0) {
+          revealNow(entry.target);
           io.unobserve(entry.target);
         }
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
     revealEls.forEach((el) => io.observe(el));
+
+    // safety net: anything still hidden after 2.5s (IO never fired) — reveal it
+    setTimeout(() => {
+      revealEls.forEach((el) => {
+        if (!el.classList.contains('in')) revealNow(el);
+      });
+    }, 2500);
   } else {
-    revealEls.forEach((el) => el.classList.add('in'));
+    revealEls.forEach(revealNow);
   }
 
   /* ---------- lazy image fade-in ---------- */
