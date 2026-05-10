@@ -24,7 +24,7 @@
         }
     </script>
 </head>
-<body>
+<body class="page-fade">
 <header>
     <nav aria-label="Primary">
         <a class="brand" href="/" aria-label="DAMK home">DAMK</a>
@@ -48,9 +48,9 @@
 </header>
 
 <main>
-    <section class="page-head">
-        <p class="page-kicker">Archive · 2023 — present</p>
-        <h1>Works</h1>
+    <section class="page-head" data-reveal>
+        <p class="page-kicker"><span class="idx"><span class="idx-num">002</span> Archive · 2023 — present</span></p>
+        <h1>Works.</h1>
         <p class="page-lead">Drawings, handmade objects, sculptural series and visual experiments. Quiet artifacts, made and kept.</p>
     </section>
 
@@ -69,6 +69,14 @@
         <section class="gallery-section" data-tab="jewelry"></section>
         <section class="gallery-section" data-tab="other"></section>
     </div>
+
+    <a class="next-link" href="/shop/" aria-label="continue to shop">
+        <div>
+            <p class="next-meta"><span class="dot-mark"></span> Next · 003 / Shop</p>
+            <p class="next-title">Take it home.</p>
+        </div>
+        <span class="next-arrow" aria-hidden="true">→</span>
+    </a>
 </main>
 
 <div id="image-overlay" class="hidden">
@@ -76,7 +84,7 @@
 </div>
 
 <footer>
-    <img src="../assets/monkey1.png" alt="" class="monkey" id="monkey"/>
+    <img src="/assets/monkey1.png" alt="" class="monkey" id="monkey"/>
     <div class="foot-meta">
         <span>EVG DAMK © 2024 — present</span>
         <span class="dot">·</span>
@@ -84,27 +92,14 @@
     </div>
 </footer>
 
-<script>
-    /* expandable nav (touch/click fallback) */
-    document.querySelectorAll('.has-sub').forEach((li) => {
-        const btn = li.querySelector('.nav-trigger');
-        if (!btn) return;
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const open = li.getAttribute('data-open') === 'true';
-            document.querySelectorAll('.has-sub[data-open="true"]').forEach(o => o.setAttribute('data-open', 'false'));
-            li.setAttribute('data-open', open ? 'false' : 'true');
-            btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-        });
-    });
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.has-sub[data-open="true"]').forEach(o => {
-            o.setAttribute('data-open', 'false');
-            const b = o.querySelector('.nav-trigger');
-            if (b) b.setAttribute('aria-expanded', 'false');
-        });
-    });
+<button type="button" class="stamp" aria-label="DAMK signature">
+    <span data-stamp-left>DAMK</span>
+    <span class="dot-mark"></span>
+    <span data-stamp-right>LISBON · 38.7°N</span>
+</button>
 
+<script src="/js/site.js" defer></script>
+<script>
     document.addEventListener('DOMContentLoaded', () => {
         const data = {
             figures: [
@@ -172,7 +167,7 @@
         }
 
         function seriesImagePath(seriesId, file) {
-            return `../assets/archive/series/${seriesId}/optimized/${file}`;
+            return `/assets/archive/series/${seriesId}/optimized/${file}`;
         }
 
         function renderSeries(section) {
@@ -245,14 +240,16 @@
                 const end = start + pageSize;
                 const chunk = files.slice(start, end);
 
-                chunk.forEach((filename) => {
+                chunk.forEach((filename, i) => {
+                    const isFeature = (currentPage === 0 && i === 0);
                     const img = createArchiveImage(
-                        `../assets/archive/${tab}/optimized/${filename}`,
+                        `/assets/archive/${tab}/optimized/${filename}`,
                         `${tab} artwork ${filename}`
                     );
+                    if (isFeature) img.loading = 'eager';
 
                     const wrapper = document.createElement('div');
-                    wrapper.className = 'gallery-item';
+                    wrapper.className = 'gallery-item' + (isFeature ? ' feature' : '');
 
                     const caption = document.createElement('div');
                     caption.className = 'caption';
@@ -317,35 +314,6 @@
             if (tabFromHash) {
                 setActiveTab(tabFromHash);
             }
-        });
-
-        // обезьянка
-        const monkey = document.getElementById('monkey');
-        const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
-        let clickable = true;
-
-        monkey.addEventListener('click', () => {
-            if (!clickable) return;
-            const current = monkey.getAttribute('src').split('/').pop();
-            const others = images.filter(img => img !== current);
-            const next = others[Math.floor(Math.random() * others.length)];
-            const tempImg = new Image();
-            tempImg.onload = () => {
-                monkey.setAttribute('src', '../assets/' + next);
-                if (next === 'monkey3.png') {
-                    clickable = false;
-                    monkey.style.transition = 'none';
-                    monkey.style.transform = 'rotate(0deg) scale(1)';
-                    void monkey.offsetWidth;
-                    monkey.style.transition = 'transform 1.8s ease-in-out';
-                    monkey.style.transform = 'rotate(1440deg) scale(2.5)';
-                    setTimeout(() => {
-                        monkey.style.transform = 'rotate(0deg) scale(1)';
-                        clickable = true;
-                    }, 2000);
-                }
-            };
-            tempImg.src = '../assets/' + next;
         });
 
         // overlay при клике на картинку

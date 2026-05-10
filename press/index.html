@@ -7,12 +7,13 @@
     <title>Press & Collaborations — EVG DAMK</title>
     <meta name="description"
           content="Press, interviews, artist features, exhibitions and creative collaborations with EVG DAMK.">
+    <meta name="theme-color" content="#0a0a0a"/>
     <link rel="stylesheet" href="/css/styles.css"/>
     <script data-goatcounter="https://damk.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
     <link rel="icon" href="/assets/favicon.ico" type="image/x-icon"/>
 </head>
-<body class="info-page">
+<body class="info-page page-fade">
 <header>
     <nav aria-label="Primary">
         <a class="brand" href="/" aria-label="DAMK home">DAMK</a>
@@ -36,13 +37,27 @@
 </header>
 
 <main class="info-main">
-    <section class="info-copy">
-        <p class="page-kicker">EVG DAMK · Press</p>
-        <h1>Press &amp; Collaborations</h1>
+    <section class="info-copy" data-reveal>
+        <p class="page-kicker"><span class="idx"><span class="idx-num">005</span> Press</span></p>
+        <h1>Press &amp;<br/>collaborations.</h1>
         <p class="page-lead">Open to interviews, artist features, exhibitions and creative collaborations.</p>
         <p>If you'd like to write about my work or discuss a project, feel free to get in touch.</p>
         <p><a href="/contact/" class="cta-link">Contact details →</a></p>
     </section>
+
+    <section class="silence" data-reveal aria-label="statement">
+        <p class="silence-meta"><span class="dot-mark"></span> Statement</p>
+        <p class="silence-counter">— quiet</p>
+        <h2 class="silence-line">A practice<br/>between memory<br/>and material.</h2>
+    </section>
+
+    <a class="next-link" href="/contact/" aria-label="continue to contact">
+        <div>
+            <p class="next-meta"><span class="dot-mark"></span> Next · 006 / Contact</p>
+            <p class="next-title">Write to me.</p>
+        </div>
+        <span class="next-arrow" aria-hidden="true">→</span>
+    </a>
 </main>
 
 <footer>
@@ -54,59 +69,12 @@
     </div>
 </footer>
 
-<script>
-    /* expandable nav */
-    document.querySelectorAll('.has-sub').forEach((li) => {
-        const btn = li.querySelector('.nav-trigger');
-        if (!btn) return;
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const open = li.getAttribute('data-open') === 'true';
-            document.querySelectorAll('.has-sub[data-open="true"]').forEach(o => o.setAttribute('data-open', 'false'));
-            li.setAttribute('data-open', open ? 'false' : 'true');
-            btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-        });
-    });
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.has-sub[data-open="true"]').forEach(o => {
-            o.setAttribute('data-open', 'false');
-            const b = o.querySelector('.nav-trigger');
-            if (b) b.setAttribute('aria-expanded', 'false');
-        });
-    });
+<button type="button" class="stamp" aria-label="DAMK signature">
+    <span data-stamp-left>DAMK</span>
+    <span class="dot-mark"></span>
+    <span data-stamp-right>LISBON · 38.7°N</span>
+</button>
 
-    const monkey = document.getElementById('monkey');
-    const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
-    let clickable = true;
-
-    monkey.addEventListener('click', () => {
-        if (!clickable) return;
-
-        const current = monkey.getAttribute('src').split('/').pop();
-        const others = images.filter(img => img !== current);
-        const next = others[Math.floor(Math.random() * others.length)];
-
-        const tempImg = new Image();
-        tempImg.onload = () => {
-            monkey.setAttribute('src', '/assets/' + next);
-
-            if (next === 'monkey3.png') {
-                clickable = false;
-
-                monkey.style.transition = 'none';
-                monkey.style.transform = 'rotate(0deg) scale(1)';
-                void monkey.offsetWidth;
-                monkey.style.transition = 'transform 1.8s ease-in-out';
-                monkey.style.transform = 'rotate(1440deg) scale(2.5)';
-
-                setTimeout(() => {
-                    monkey.style.transform = 'rotate(0deg) scale(1)';
-                    clickable = true;
-                }, 2000);
-            }
-        };
-        tempImg.src = '/assets/' + next;
-    });
-</script>
+<script src="/js/site.js" defer></script>
 </body>
 </html>

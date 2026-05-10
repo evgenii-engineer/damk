@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>EVG DAMK — Artist Creating Handmade Art Objects & Figures</title>
     <meta name="description"
-          content="EVG DAMK is an artist creating handmade art objects, concrete figures and sculptures inspired by memory, quiet moments and urban culture.">
+          content="EVG DAMK — handmade art objects, concrete figures and quiet artifacts. Memory, urban silence, post-soviet street culture. Based in Lisbon.">
     <meta name="theme-color" content="#0a0a0a"/>
     <link rel="canonical" href="https://evgdamk.com/"/>
-    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="stylesheet" href="/css/styles.css"/>
     <script data-goatcounter="https://damk.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon"/>
-    <link rel="preload" as="image" href="assets/about.jpg"/>
+    <link rel="icon" href="/assets/favicon.ico" type="image/x-icon"/>
+    <link rel="preload" as="image" href="/assets/about.jpg"/>
 </head>
-<body>
+<body class="page-fade">
 <header>
     <nav aria-label="Primary">
         <a class="brand" href="/" aria-label="DAMK home">DAMK</a>
@@ -39,38 +39,59 @@
 
 <main>
     <section class="hero" aria-label="intro">
-        <div class="hero-bg" style="background-image:url('assets/about.jpg');"></div>
+        <div class="hero-bg" style="background-image:url('/assets/about.jpg');"></div>
         <p class="hero-coords">Lisbon · 38.7°N</p>
-        <p class="hero-kicker">EVG DAMK · Contemporary Urban Artifacts</p>
+        <p class="hero-kicker"><span class="dot-mark"></span>&nbsp;&nbsp;EVG DAMK · Contemporary Urban Artifacts</p>
         <h1 class="hero-mark">DAMK</h1>
         <p class="hero-phrase">Handmade objects, concrete figures and quiet artifacts shaped by memory and the silence of cities.</p>
         <p class="hero-scroll">scroll</p>
     </section>
 
-    <section class="bio" aria-label="about">
+    <section class="bio" aria-label="about" data-reveal>
         <div>
-            <p class="bio-label">About / 01</p>
+            <p class="page-kicker"><span class="idx"><span class="idx-num">001</span> Statement</span></p>
             <p class="bio-lede">A visual world that feels forgotten, but familiar.</p>
+            <div class="bio-statements">
+                <p>Quiet things from loud cities.</p>
+                <p>Objects from forgotten places.</p>
+                <p>Fragments of disappearing environments.</p>
+            </div>
             <div class="bio-body">
-                <p>My name is DAMK. I make paintings, characters and objects from things I remember — and things I never want to forget.</p>
-                <p>I grew up in a post-Soviet city where garages, playgrounds, cracked tiles and old cars meant safety. Now I live in Lisbon and I rebuild those scenes — sometimes in paint, sometimes in plastic, sometimes as a small monkey figure that follows me everywhere.</p>
-                <p>I work with memory, loneliness, and everyday urban silence. My pieces live somewhere between street culture and soft sadness.</p>
-                <p>The places that shaped us, even if nobody noticed them. My practice mixes nostalgia, street memory, irony and quiet objects — like playgrounds without kids, or toys that never smile.</p>
+                <p>I work between street culture and soft sadness — paint, concrete, plastic. Memory shapes the form. The form is what remains.</p>
                 <p><a href="https://instagram.com/evg.damk" target="_blank" rel="noopener">Follow on Instagram →</a></p>
+            </div>
+            <div class="bio-meta">
+                <div class="row"><strong>Based</strong><span>Lisbon · 38.7°N</span></div>
+                <div class="row"><strong>Practice</strong><span>Sculpture · Painting · Object</span></div>
+                <div class="row"><strong>Active</strong><span>2023 — present</span></div>
             </div>
         </div>
         <figure class="bio-image-wrap">
-            <img src="assets/about.jpg" alt="DAMK with his dog" class="bio-image" loading="lazy" decoding="async"/>
+            <img src="/assets/about.jpg" alt="DAMK with his dog" class="bio-image" loading="lazy" decoding="async"/>
             <figcaption class="bio-image-meta">
                 <span>Studio · Lisbon</span>
                 <span>Portrait</span>
             </figcaption>
         </figure>
     </section>
+
+    <section class="silence" data-reveal aria-label="statement">
+        <p class="silence-meta"><span class="dot-mark"></span> Statement / 02</p>
+        <p class="silence-counter">— silence</p>
+        <h2 class="silence-line">Quiet things<br/>from <em>loud</em> cities.</h2>
+    </section>
+
+    <a class="next-link" href="/archive/" aria-label="continue to works">
+        <div>
+            <p class="next-meta"><span class="dot-mark"></span> Next · 002 / Works</p>
+            <p class="next-title">The archive.</p>
+        </div>
+        <span class="next-arrow" aria-hidden="true">→</span>
+    </a>
 </main>
 
 <footer>
-    <img src="assets/monkey1.png" alt="" class="monkey" id="monkey"/>
+    <img src="/assets/monkey1.png" alt="" class="monkey" id="monkey"/>
     <div class="foot-meta">
         <span>EVG DAMK © 2024 — present</span>
         <span class="dot">·</span>
@@ -78,59 +99,12 @@
     </div>
 </footer>
 
-<script>
-    /* expandable nav (touch/click fallback) */
-    document.querySelectorAll('.has-sub').forEach((li) => {
-        const btn = li.querySelector('.nav-trigger');
-        if (!btn) return;
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const open = li.getAttribute('data-open') === 'true';
-            document.querySelectorAll('.has-sub[data-open="true"]').forEach(o => o.setAttribute('data-open', 'false'));
-            li.setAttribute('data-open', open ? 'false' : 'true');
-            btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-        });
-    });
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.has-sub[data-open="true"]').forEach(o => {
-            o.setAttribute('data-open', 'false');
-            const b = o.querySelector('.nav-trigger');
-            if (b) b.setAttribute('aria-expanded', 'false');
-        });
-    });
+<button type="button" class="stamp" aria-label="DAMK signature">
+    <span data-stamp-left>DAMK</span>
+    <span class="dot-mark"></span>
+    <span data-stamp-right>LISBON · 38.7°N</span>
+</button>
 
-    /* monkey easter egg (preserved) */
-    const monkey = document.getElementById('monkey');
-    const images = ['monkey1.png', 'monkey2.png', 'monkey3.png', 'monkey4.png'];
-    let clickable = true;
-
-    monkey.addEventListener('click', () => {
-        if (!clickable) return;
-
-        const current = monkey.getAttribute('src').split('/').pop();
-        const others = images.filter(img => img !== current);
-        const next = others[Math.floor(Math.random() * others.length)];
-
-        const tempImg = new Image();
-        tempImg.onload = () => {
-            monkey.setAttribute('src', 'assets/' + next);
-
-            if (next === 'monkey3.png') {
-                clickable = false;
-                monkey.style.transition = 'none';
-                monkey.style.transform = 'rotate(0deg) scale(1)';
-                void monkey.offsetWidth;
-                monkey.style.transition = 'transform 1.8s ease-in-out';
-                monkey.style.transform = 'rotate(1440deg) scale(2.5)';
-
-                setTimeout(() => {
-                    monkey.style.transform = 'rotate(0deg) scale(1)';
-                    clickable = true;
-                }, 2000);
-            }
-        };
-        tempImg.src = 'assets/' + next;
-    });
-</script>
+<script src="/js/site.js" defer></script>
 </body>
 </html>
