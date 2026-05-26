@@ -6,10 +6,15 @@
     <script>(function(){try{if(localStorage.getItem('damk-theme')==='light')document.documentElement.dataset.theme='light';}catch(e){}})();</script>
     <meta name="theme-color" content="#0a0a0a"/>
     <link rel="canonical" href="https://evgdamk.com/archive/" />
-    <title>Artworks Archive — Paintings & Objects by EVG DAMK</title>
+    <title>Studies — Canvases, Figures, Jewelry · EVG DAMK</title>
     <meta name="description"
-          content="Archive of artworks by EVG DAMK including paintings, objects and visual experiments.">
-    <link rel="stylesheet" href="../css/styles.css?v=20260510-2"/>
+          content="Studies by EVG DAMK — an archive of canvases, figures, jewelry and other quiet experiments. Material research and works on the side of the main projects.">
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Studies — EVG DAMK"/>
+    <meta property="og:description" content="An archive of canvases, figures, jewelry and other quiet experiments by EVG DAMK."/>
+    <meta property="og:url" content="https://evgdamk.com/archive/"/>
+    <meta property="og:site_name" content="EVG DAMK"/>
+    <link rel="stylesheet" href="/css/styles.css?v=20260526-1"/>
     <script data-goatcounter="https://damk.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png"/>
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png"/>
@@ -19,9 +24,9 @@
         {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
-            "name": "Artworks Archive by EVG DAMK",
+            "name": "Studies by EVG DAMK",
             "url": "https://evgdamk.com/archive/",
-            "description": "Archive of paintings, handmade objects, figures and visual experiments by EVG DAMK.",
+            "description": "Archive of canvases, figures, jewelry and other works by EVG DAMK.",
             "creator": {
                 "@type": "Person",
                 "name": "EVG DAMK"
@@ -34,19 +39,9 @@
     <nav aria-label="Primary">
         <a class="brand" href="/" aria-label="DAMK home">DAMK</a>
         <ul class="nav-list">
-            <li class="has-sub">
-                <button class="nav-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-current="true">works</button>
-                <ul class="sub" role="menu">
-                    <li><a href="/archive/">all</a></li>
-                    <li><a href="/archive/#series">series</a></li>
-                    <li><a href="/archive/#canvases">canvases</a></li>
-                    <li><a href="/archive/#figures">figures</a></li>
-                    <li><a href="/archive/#jewelry">jewelry</a></li>
-                    <li><a href="/archive/#other">other</a></li>
-                </ul>
-            </li>
+            <li><a href="/projects/">projects</a></li>
+            <li><a href="/archive/" aria-current="page">studies</a></li>
             <li><a href="/shop/">shop</a></li>
-            <li><a href="/press/">press</a></li>
             <li><a href="/contact/">contact</a></li>
         </ul>
         <button class="theme-switch" type="button" aria-label="Switch to gallery mode (02)">
@@ -59,14 +54,13 @@
 
 <main>
     <section class="page-head" data-reveal>
-        <p class="page-kicker"><span class="idx"><span class="idx-num">002</span> Archive · 2021 — present</span></p>
-        <h1>Works.</h1>
-        <p class="page-lead">Drawings, handmade objects, sculptural series and visual experiments. Quiet artifacts, made and kept.</p>
-        <p class="page-lead">Works by <a href="/damk/">DAMK — artist</a>, Lisbon.</p>
+        <p class="page-kicker"><span class="idx"><span class="idx-num">003</span> Studies · 2021 — present</span></p>
+        <h1>Studies.</h1>
+        <p class="page-lead">An archive of canvases, figures, jewelry and other quiet experiments. Material research, side notes, and works carried out next to the main <a href="/projects/">projects</a>.</p>
     </section>
 
-    <div class="tabs" id="tabs">
-        <button class="tab-button" data-tab="series">series</button>
+    <div class="tabs tabs-quiet" id="tabs" role="tablist" aria-label="study type">
+        <span class="tabs-label" aria-hidden="true">filter</span>
         <button class="tab-button active" data-tab="canvases">canvases</button>
         <button class="tab-button" data-tab="figures">figures</button>
         <button class="tab-button" data-tab="jewelry">jewelry</button>
@@ -74,7 +68,6 @@
     </div>
 
     <div id="archive-sections">
-        <section class="gallery-section" data-tab="series"></section>
         <section class="gallery-section active" data-tab="canvases"></section>
         <section class="gallery-section" data-tab="figures"></section>
         <section class="gallery-section" data-tab="jewelry"></section>
@@ -83,7 +76,7 @@
 
     <a class="next-link" href="/shop/" aria-label="continue to shop">
         <div>
-            <p class="next-meta"><span class="dot-mark"></span> Next · 003 / Shop</p>
+            <p class="next-meta"><span class="dot-mark"></span> Next · 004 / Shop</p>
             <p class="next-title">Take it home.</p>
         </div>
         <span class="next-arrow" aria-hidden="true">→</span>
@@ -98,6 +91,8 @@
     <img src="/assets/monkey1.png" alt="" class="monkey" id="monkey"/>
     <div class="foot-meta">
         <span>EVG DAMK © 2024 — present</span>
+        <span class="dot">·</span>
+        <a href="/press/" aria-label="press">press</a>
         <span class="dot">·</span>
         <a href="/game/" aria-label="play">play</a>
     </div>
@@ -153,30 +148,6 @@
             ]
         };
 
-        const seriesCatalog = [
-            {
-                id: 'tin-survivors',
-                title: 'TIN SURVIVORS',
-                subtitle: 'Hand-cast tin figures carrying traces of heat and pressure.',
-                cover: 'tin_survivors1.jpg',
-                url: '/archive/series/tin-survivors/'
-            },
-            {
-                id: 'permanent-repair',
-                title: 'PERMANENT REPAIR',
-                subtitle: 'Damaged objects, roughly repaired and preserved.',
-                cover: 'permanent_repair1.jpg',
-                url: '/archive/series/permanent-repair/'
-            },
-            {
-                id: 'weight',
-                title: 'WEIGHT',
-                subtitle: 'Sculptural series about a form under pressure.',
-                cover: 'main.jpg',
-                url: '/archive/series/weight/'
-            }
-        ];
-
         const loadedTabs = new Set();
 
         function createArchiveImage(src, alt, loading = 'lazy') {
@@ -191,62 +162,12 @@
             return img;
         }
 
-        function seriesImagePath(seriesId, file) {
-            return `/assets/archive/series/${seriesId}/optimized/${file}`;
-        }
-
-        function renderSeries(section) {
-            const list = document.createElement('div');
-            list.className = 'series-card-grid';
-
-            seriesCatalog.forEach((series) => {
-                const card = document.createElement('article');
-                card.className = 'series-card';
-
-                const thumb = createArchiveImage(
-                    seriesImagePath(series.id, series.cover),
-                    `${series.title} cover image`,
-                    'lazy'
-                );
-                thumb.className = 'series-card-image';
-
-                const meta = document.createElement('div');
-                meta.className = 'series-card-meta';
-                meta.innerHTML = `
-                    <strong>${series.title}</strong>
-                    <span>${series.subtitle}</span>
-                `;
-
-                const link = document.createElement('a');
-                link.className = 'series-card-link';
-                link.href = series.url;
-                link.setAttribute('aria-label', `open ${series.title} series`);
-
-                const hint = document.createElement('span');
-                hint.className = 'series-card-hint';
-                hint.textContent = 'open series';
-
-                link.appendChild(thumb);
-                link.appendChild(meta);
-                link.appendChild(hint);
-                card.appendChild(link);
-                list.appendChild(card);
-            });
-
-            section.appendChild(list);
-        }
-
         function loadImagesFor(tab) {
             if (loadedTabs.has(tab)) return;
             loadedTabs.add(tab);
 
             const section = document.querySelector(`.gallery-section[data-tab="${tab}"]`);
             if (!section) return;
-
-            if (tab === 'series') {
-                renderSeries(section);
-                return;
-            }
 
             const grid = document.createElement('div');
             grid.className = 'gallery';
@@ -329,24 +250,29 @@
             });
         });
 
+        // legacy hash compatibility: /archive/#series redirects to /projects/
         const initialHash = window.location.hash.replace('#', '');
-        const initialTab = initialHash.startsWith('series-') ? 'series' : (initialHash || 'canvases');
-        setActiveTab(initialTab);
+        if (initialHash === 'series' || initialHash.startsWith('series-')) {
+            window.location.replace('/projects/');
+        } else {
+            setActiveTab(initialHash || 'canvases');
+        }
 
         window.addEventListener('hashchange', () => {
             const hash = window.location.hash.replace('#', '');
-            const tabFromHash = hash.startsWith('series-') ? 'series' : hash;
-            if (tabFromHash) {
-                setActiveTab(tabFromHash);
+            if (hash === 'series' || hash.startsWith('series-')) {
+                window.location.replace('/projects/');
+                return;
+            }
+            if (hash) {
+                setActiveTab(hash);
             }
         });
 
-        // overlay при клике на картинку
         const overlay = document.getElementById('image-overlay');
         const overlayImg = document.getElementById('overlay-img');
 
         document.getElementById('archive-sections').addEventListener('click', e => {
-            if (e.target.closest('.series-card-link')) return;
             if (e.target.tagName === 'IMG') {
                 overlayImg.src = e.target.src;
                 overlay.classList.remove('hidden');

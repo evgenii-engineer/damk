@@ -521,6 +521,58 @@ footer {
   background: var(--bone);
 }
 
+/* === Quiet tabs · Studies subdivisions (archival, not portfolio filters) === */
+.tabs.tabs-quiet {
+  border-top: 0;
+  border-bottom: 1px solid var(--line);
+  margin: 18px auto 32px;
+  gap: 0 22px;
+  padding-bottom: 0;
+}
+.tabs.tabs-quiet .tabs-label {
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fog);
+  padding: 14px 22px 14px 0;
+  border-right: 1px solid var(--line);
+  margin-right: 4px;
+  align-self: center;
+}
+.tabs.tabs-quiet .tab-button {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  padding: 14px 0;
+  margin: 0;
+  color: var(--fog);
+  opacity: 0.78;
+  font-weight: 400;
+}
+.tabs.tabs-quiet .tab-button:hover { color: var(--bone-soft); opacity: 1; }
+.tabs.tabs-quiet .tab-button.active { color: var(--bone-soft); opacity: 1; }
+.tabs.tabs-quiet .tab-button.active::after {
+  /* no big underline, no signature dot — just a quiet hairline */
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  width: auto;
+  height: 1px;
+  background: var(--bone-soft);
+  border-radius: 0;
+  top: auto;
+  margin: 0;
+}
+@media (max-width: 720px) {
+  .tabs.tabs-quiet { gap: 0 16px; }
+  .tabs.tabs-quiet .tabs-label {
+    padding: 12px 14px 12px 0;
+    margin-right: 0;
+  }
+  .tabs.tabs-quiet .tab-button { padding: 12px 0; }
+}
+
 /* === Gallery === */
 .gallery-section { display: none; padding: 0 var(--pad-x); max-width: 1280px; margin: 0 auto; }
 .gallery-section.active { display: block; }
@@ -1003,6 +1055,128 @@ footer {
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: var(--accent);
+}
+
+/* === Projects · cinematic series showcase (large imagery, atmospheric) === */
+.projects {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px var(--pad-x) 80px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(80px, 12vh, 160px);
+}
+
+.project-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 80px);
+  align-items: end;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+.project-feature:nth-child(even) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+}
+.project-feature:nth-child(even) .project-feature-img-wrap { order: 2; }
+.project-feature:nth-child(even) .project-feature-text { order: 1; }
+
+.project-feature-img-wrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--graphite);
+}
+.project-feature-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  filter: grayscale(0.18);
+  transition: filter 0.6s var(--ease), transform 0.8s var(--ease);
+}
+.project-feature:hover .project-feature-img {
+  filter: grayscale(0);
+  transform: scale(1.018);
+}
+
+.project-feature-index {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--bone-soft);
+  background: rgba(var(--bg-rgb), 0.55);
+  backdrop-filter: blur(6px);
+  padding: 6px 10px;
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.project-feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-bottom: 8px;
+}
+.project-feature-kicker {
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fog);
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+.project-feature-title {
+  margin: 0;
+  font-size: clamp(36px, 5.5vw, 84px);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  font-weight: 500;
+  color: var(--bone);
+}
+.project-feature-subtitle {
+  margin: 0;
+  font-size: clamp(16px, 1.4vw, 20px);
+  color: var(--bone-soft);
+  max-width: 38ch;
+  line-height: 1.5;
+}
+.project-feature-hint {
+  margin-top: 6px;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: color 0.3s var(--ease), letter-spacing 0.4s var(--ease);
+}
+.project-feature:hover .project-feature-hint {
+  color: var(--bone);
+  letter-spacing: 0.36em;
+}
+.project-feature-hint::after {
+  content: '→';
+  font-size: 12px;
+  letter-spacing: 0;
+}
+
+@media (max-width: 800px) {
+  .project-feature,
+  .project-feature:nth-child(even) {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .project-feature:nth-child(even) .project-feature-img-wrap { order: 0; }
+  .project-feature:nth-child(even) .project-feature-text { order: 0; }
+  .project-feature-img { aspect-ratio: 4 / 5; }
 }
 
 /* === Series detail page === */
