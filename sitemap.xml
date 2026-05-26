@@ -36,4 +36,12 @@
     <loc>https://evgdamk.com/archive/series/weight/</loc>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://evgdamk.com/archive/series/permanent-repair/</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://evgdamk.com/archive/series/tin-survivors/</loc>
+    <priority>0.7</priority>
+  </url>
 </urlset>

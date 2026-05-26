@@ -1148,6 +1148,32 @@ footer {
   filter: grayscale(0.15);
 }
 
+/* Looping artifact (small object documentation) */
+.series-loop {
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
+.series-loop video {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+  background: #000;
+  filter: grayscale(0.1);
+}
+.series-loop figcaption {
+  margin-top: 14px;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fog);
+  text-align: center;
+}
+
 @media (max-width: 900px) {
   .series-card-link { gap: 12px; padding: 0; }
   .series-card-image { aspect-ratio: 4 / 3; height: auto; width: 100%; }
@@ -1741,7 +1767,8 @@ main,
 [data-theme="light"] .series-card-image,
 [data-theme="light"] .series-process-item img,
 [data-theme="light"] .series-hero img,
-[data-theme="light"] .series-state img {
+[data-theme="light"] .series-state img,
+[data-theme="light"] .series-loop video {
   filter: grayscale(0.18) contrast(0.96) saturate(0.94);
 }
 [data-theme="light"] .gallery-item:hover img,
